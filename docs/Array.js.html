@@ -1,4 +1,31 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Array.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: Array.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * @project Asdf.js
  * @author N3735
  * @namespace
@@ -35,7 +62,7 @@
 	 */
 	function each(col, iterator, context) {
 		if (col == null || $_.O.isNotCollection(col)) throw new TypeError();
-		if (nativeForEach && col.forEach === nativeForEach) {
+		if (nativeForEach &amp;&amp; col.forEach === nativeForEach) {
 			return col.forEach(iterator, context);
 		}
 		_each(col, iterator, context);
@@ -55,7 +82,7 @@
 		var results = [];
 		if (col == null || $_.O.isNotCollection(col))
 			throw new TypeError();
-		if (nativeMap && col.map === nativeMap)
+		if (nativeMap &amp;&amp; col.map === nativeMap)
 			return col.map(iterator, context);
 		_each(col, function(value, index, list) {
 			results[results.length] = iterator.call(context, value, index, list);
@@ -78,7 +105,7 @@
 		var initial = arguments.length > 2;
 		if (col == null || $_.O.isNotCollection(col))
 			throw new TypeError();
-		if (nativeReduce && col.reduce === nativeReduce) {
+		if (nativeReduce &amp;&amp; col.reduce === nativeReduce) {
 			if (context)
 				iterator = $_.F.bind(iterator, context);
 			return initial ? col.reduce(iterator, memo) : col.reduce(iterator);
@@ -111,13 +138,13 @@
 		var initial = arguments.length > 2;
 		if (col == null || $_.O.isNotCollection(col))
 			throw new TypeError();
-		if (nativeReduceRight && col.reduceRight === nativeReduceRight) {
+		if (nativeReduceRight &amp;&amp; col.reduceRight === nativeReduceRight) {
 			if (context)
 				iterator = $_.F.bind(iterator, context);
 			return initial ? col.reduceRight(iterator, memo) : col.reduceRight(iterator);
 		}
 		var reversed = toArray(col).reverse();
-		if (context && !initial)
+		if (context &amp;&amp; !initial)
 			iterator = $_.F.bind(iterator, context);
 		return initial ? reduce(reversed, iterator, memo, context): reduce(reversed, iterator);
 	}
@@ -153,7 +180,7 @@
 	 * @desc col[n]값을 반환한다.
 	 */
 	function get(col, n){
-		n == null && (n = 0);
+		n == null &amp;&amp; (n = 0);
 		return col[n];
 	};
 	
@@ -192,7 +219,7 @@
 		var results = [];
 		if (col == null || $_.O.isNotCollection(col))
 			throw new TypeError();
-		if (nativeFilter && col.filter === nativeFilter)
+		if (nativeFilter &amp;&amp; col.filter === nativeFilter)
 			return col.filter(iterator, context);
 		each(col, function(value, index, list) {
 			if (iterator.call(context, value, index, list))
@@ -229,11 +256,11 @@
 	function every(col, iterator, context) {
 	    if (col == null || $_.O.isNotCollection(col))
 			throw new TypeError();
-		if (nativeEvery && col.every === nativeEvery)
+		if (nativeEvery &amp;&amp; col.every === nativeEvery)
 			return col.every(iterator, context);
 		 var result = true;
 		_eachWithTermination(col, 
-				function (value, index, list) { return isNotEnd(index, list) && (result = iterator.call(context, value, index, list));}, 
+				function (value, index, list) { return isNotEnd(index, list) &amp;&amp; (result = iterator.call(context, value, index, list));}, 
 				function () {});
 		return !!result;
 	}
@@ -252,11 +279,11 @@
 	function any(col, iterator, context) {
 		if (col == null || $_.O.isNotCollection(col))
 			throw new TypeError();
-		if (nativeSome && col.some === nativeSome)
+		if (nativeSome &amp;&amp; col.some === nativeSome)
 			return col.some(iterator, context);
 		var result = false;
 		_eachWithTermination(col, 
-				function (value, index, list) { return isNotEnd(index, list) && !(result = iterator.call(context, value, index, list));}, 
+				function (value, index, list) { return isNotEnd(index, list) &amp;&amp; !(result = iterator.call(context, value, index, list));}, 
 				function () {});
 		return !!result;
 	}
@@ -274,7 +301,7 @@
 	function include(col, target) {
 		if (col == null || $_.O.isNotCollection(col))
 			throw new TypeError();
-		if (nativeIndexOf && col.indexOf === nativeIndexOf)
+		if (nativeIndexOf &amp;&amp; col.indexOf === nativeIndexOf)
 			return col.indexOf(target) != -1;
 		return any(col, function(value) {
 			return value === target;
@@ -355,7 +382,7 @@
 		iterator = iterator||function (value){return value;};
 		var result = reduce(col, function(memo, value, index, list) {
 			var computed = iterator.call(context, value, index, list);
-			return computed < memo.computed? {computed: computed, value: value}: memo;
+			return computed &lt; memo.computed? {computed: computed, value: value}: memo;
 		}, { computed : Infinity } );
 		return result.value;
 	}
@@ -402,7 +429,7 @@
 			return -1;
 		if(a == b)
 			return 0;
-		if(a < b)
+		if(a &lt; b)
 			return 1;
 		if(a > b)
 			return -1;
@@ -416,7 +443,7 @@
 			return 0;
 		if(a > b)
 			return 1;
-		if(a < b)
+		if(a &lt; b)
 			return -1;
 		
 	}
@@ -465,9 +492,9 @@
 	function sortedIndex(array, obj, iterator) {
 		iterator || (iterator = $_.F.identity);
 		var low = 0, high = array.length;
-		while (low < high) {
+		while (low &lt; high) {
 			var mid = (low + high) >> 1;
-			iterator(array[mid]) < iterator(obj) ? low = mid + 1
+			iterator(array[mid]) &lt; iterator(obj) ? low = mid + 1
 					: high = mid;
 		}
 		return low;
@@ -487,7 +514,7 @@
 			return col;
 		if ($_.O.isArguments(col))
 			return slice.call(col);
-		if (col.toArray && $_.O.isFunction(col.toArray))
+		if (col.toArray &amp;&amp; $_.O.isFunction(col.toArray))
 			return col.toArray();
 		var length = col.length || 0, results = new Array(length);
 		while (length--) results[length] = col[length];
@@ -522,49 +549,29 @@
 	
 	function initial(array, n) {
 		if($_.O.isNotArray(array)) throw new TypeError();
-		n == null && (n=1);
+		n == null &amp;&amp; (n=1);
 		return slice.call(array, 0, array.length - n);
 	}
 	
 	/**
 	 * @memberof A
+	 * @name rest
 	 * @func
 	 * @param {array} array 대상 객체
-	 * @param {number} [n=1] 버릴 갯수
-	 * @returns {array} 앞부터 n개를 버린 array를 반환한다.
-	 * @desc array에서 n부터 나머지 array를 반환한다.
+	 * @returns {array} 빈 대상 객체를 반환한다.
+	 * @desc array.length가 0인 빈 array를 반환한다.
 	 */
 	function rest(array, n){
 		if($_.O.isNotArray(array)) throw new TypeError();
-		n == null && (n=1);
+		n == null &amp;&amp; (n=1);
 		return slice.call(array, n);
 	}
 	
-	/**
-	 * @memberof A
-	 * @func
-	 * @param {array} array 대상 객체
-	 * @returns {array} ==false인 values를 제거하고 나머지 array를 반환한다.
-	 * @desc ==false('',0,null,undefined,false..)인 values을 제거한 array를 반환한다.
-	 * @example
-	 * Asdf.A.compact([1,null,undefined, false, '', 4]); //return [1,4]
-	 */
 	function compact(array) {
 		if($_.O.isNotArray(array)) throw new TypeError();
 		return filter(array, function(value){ return !!value; });
 	}
 	
-	/**
-	 * @memberof A
-	 * @func
-	 * @param {array} array 대상 객체
-	 * @param {boolean=} shallow deep여부 false면 deep 
-	 * @returns {array} array를 평탄하게 하여 반환한다.
-	 * @desc ==false('',0,null,undefined,false..)인 values을 제거한 array를 반환한다.
-	 * @example
-	 * Asdf.A.flatten([1,[2],[3,[4]]]); //return [1,2,3,4]
-	 * Asdf.A.flatten([1,[2],[3,[4]]], true); //return [1,2,3,[4]]
-	 */
 	function flatten(array, shallow) {
 		if($_.O.isNotArray(array)) throw new TypeError();
 		return reduce(array, function(memo, value) {
@@ -580,7 +587,7 @@
 	function unique(array, isSorted, iterator) {
 		var initial = iterator ? map(array, iterator) : array;
 		var results = [];
-		if (array.length < 3)
+		if (array.length &lt; 3)
 			isSorted = true;
 		reduce(initial, function(memo, value, index) {
 			if (isSorted ? last(memo) !== value || !memo.length
@@ -611,7 +618,7 @@
 		var args = slice.call(arguments);
 	    var length = max(pluck(args, 'length'));
 	    var results = new Array(length);
-	    for (var i = 0; i < length; i++) results[i] = pluck(args, "" + i);
+	    for (var i = 0; i &lt; length; i++) results[i] = pluck(args, "" + i);
 	    return results;
 	}
 	function indexOf(array, item, isSorted) {
@@ -621,15 +628,15 @@
 	      i = sortedIndex(array, item);
 	      return array[i] === item ? i : -1;
 	    }
-	    if (nativeIndexOf && array.indexOf === nativeIndexOf) return array.indexOf(item);
-	    for (i = 0, l = array.length; i < l; i++) if (i in array && array[i] === item) return i;
+	    if (nativeIndexOf &amp;&amp; array.indexOf === nativeIndexOf) return array.indexOf(item);
+	    for (i = 0, l = array.length; i &lt; l; i++) if (i in array &amp;&amp; array[i] === item) return i;
 	    return -1;
 	}
 	function lastIndexOf(array, item) {
 		if (array == null) return -1;
-	    if (nativeLastIndexOf && array.lastIndexOf === nativeLastIndexOf) return array.lastIndexOf(item);
+	    if (nativeLastIndexOf &amp;&amp; array.lastIndexOf === nativeLastIndexOf) return array.lastIndexOf(item);
 	    var i = array.length;
-	    while (i--) if (i in array && array[i] === item) return i;
+	    while (i--) if (i in array &amp;&amp; array[i] === item) return i;
 	    return -1;
 	}
 	function batch(array, fns){
@@ -682,4 +689,26 @@
 		batch:batch,
 		toArguments:toArguments
 	}, true);
-})(Asdf);
+})(Asdf);</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Namespaces</h3><ul><li><a href="A.html">A</a></li><li><a href="O.html">O</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha3</a> on Fri Jan 10 2014 00:55:51 GMT+0900 (대한민국 표준시)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

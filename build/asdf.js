@@ -323,6 +323,13 @@
 		return !!(object && object.nodeType);
 	}
 	
+	/**
+	 * @memberof O
+	 * @func
+	 * @param {Object} object 판단 객체
+	 * @returns {boolean} Node여부를 반환하다.
+	 * @example 해당 메소드를 사용하면 객체가 Node아닌지 판단한다.
+	 */
 	var isNotNode = not(isNode);
 	
 	/**

@@ -1,0 +1,19 @@
+{
+	"opts": {
+	    "encoding": "utf8",               
+	    "destination": "./docs/",         
+	    "recurse": true                  
+	},
+    "tags": {
+        "allowUnknownTags": true
+    },
+    "source": {
+    	"include": ["src"],
+        "includePattern": ".+\\.js$"
+    },
+    "plugins": [],
+    "templates": {
+        "cleverLinks": false,
+        "monospaceLinks": false
+    }
+}

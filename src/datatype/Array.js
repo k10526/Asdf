@@ -573,10 +573,33 @@
 		      return memo;
 		    }, []);
 	}
+	
+	/**
+	 * @memberof A
+	 * @func
+	 * @param {array} array 대상 객체
+	 * @param {...*=} values 대상 객체
+	 * @returns {array} array에서 value를 제거한 리스트를 리턴한다.
+	 * @desc array에서 values와 ===참인 값을 제거하여 array를 반환한다.
+	 * @example
+	 * Asdf.A.without([1,2,3],1,2); //return [3]
+	 */
 	function without(array) {
 		if($_.O.isNotArray(array)) throw new TypeError();
 		return difference(array, slice.call(arguments, 1));
 	}
+	
+	/**
+	 * @memberof A
+	 * @func
+	 * @param {array} array 대상 객체
+	 * @param {boolean=} isSorted 정렬 여부
+	 * @param {function=} iterator 변형 함수
+	 * @returns {array} array에 있는 값 중 중복된 값을 제거한 후 array를 반환한다.
+	 * @desc array에서 iterator변형 함수가 존재하면 값을 변형한 후 중복된 값을 제거한다.
+	 * @example
+	 * Asdf.A.unique([1,2,1]); //return [1,2]
+	 */
 	function unique(array, isSorted, iterator) {
 		var initial = iterator ? map(array, iterator) : array;
 		var results = [];
@@ -592,9 +615,29 @@
 		}, []);
 		return results;
 	}
+	
+	/**
+	 * @memberof A
+	 * @func
+	 * @param {...array} array 대상 객체
+	 * @returns {array} array들의 합집합을 반환한다.
+	 * @desc array들의 합집합을 반환한다.
+	 * @example
+	 * Asdf.A.union([1,2,3],[3,4,5],[1,6]); //return [1,2,3,4,5,6];
+	 */
 	function union() {
 		 return unique(flatten(arguments, true));
 	}
+	
+	/**
+	 * @memberof A
+	 * @func
+	 * @param {...array} array 대상 객체
+	 * @returns {array} array들의 교집합을 반환한다.
+	 * @desc array들의 교집합을 반환한다.
+	 * @example
+	 * Asdf.A.intersection([1,2,3],[1,6]); //return [1];
+	 */
 	function intersection(array) {
 		var rest = slice.call(arguments, 1);
 		return filter(unique(array), function(item) {
@@ -603,10 +646,31 @@
 			});
 		});
 	}
+	
+	/**
+	 * @memberof A
+	 * @func
+	 * @param {array} array 대상 객체
+	 * @param {...array} others array 객체
+	 * @returns {array} array에서 others의 차집합을 반환한다.
+	 * @desc array에서 others의 차집합을 반환한다.
+	 * @example
+	 * Asdf.A.difference([1,2,3],[3,4,5],[1,6]); //return [2];
+	 */
 	function difference(array) {
 		var rest = flatten(slice.call(arguments, 1), true);
 	    return filter(array, function(value){ return !include(rest, value); });
 	}
+	
+	/**
+	 * @memberof A
+	 * @func
+	 * @param {...array} array 대상 객체들
+	 * @returns {array} 대상 객체들이 합쳐친 array 객체를 반환한다.
+	 * @desc 같은 position에 있는 값을 합쳐서 array로 반환한다.
+	 * @example
+	 * Asdf.A.zip([1,2,3],[3,4,5],[1,6]); //return [[1,3,1], [2,4,6], [3,5, undefined]];
+	 */
 	function zip() {
 		var args = slice.call(arguments);
 	    var length = max(pluck(args, 'length'));
@@ -614,6 +678,18 @@
 	    for (var i = 0; i < length; i++) results[i] = pluck(args, "" + i);
 	    return results;
 	}
+	
+	/**
+	 * @memberof A
+	 * @func
+	 * @param {array} array 대상 객체
+	 * @param {*} item 찾는 값
+	 * @param {boolean} isSorted 정렬 여부
+	 * @returns {numbers} array에서 item값을 찾아 그 위치를 반환한다.
+	 * @desc array에서 item 위치를 앞부터 찾아서 그 위치를 반환한다. 만약 없을 경우 -1을 반환한다.
+	 * @example
+	 * Asdf.A.indexOf([1,2,3,4,2], 2); //return 1;
+	 */
 	function indexOf(array, item, isSorted) {
 		if (array == null) return -1;
 	    var i, l;
@@ -625,6 +701,18 @@
 	    for (i = 0, l = array.length; i < l; i++) if (i in array && array[i] === item) return i;
 	    return -1;
 	}
+	
+	/**
+	 * @memberof A
+	 * @func
+	 * @param {array} array 대상 객체
+	 * @param {*} item 찾는 값
+	 * @param {boolean} isSorted 정렬 여부
+	 * @returns {numbers} array에서 item값을 찾아 그 위치를 반환한다.
+	 * @desc array에서 item 위치를 뒤부터 찾아서 그 위치를 반환한다. 만약 없을 경우 -1을 반환한다.
+	 * @example
+	 * Asdf.A.lastIndexOf([1,2,3,4,2], 2); //return 4;
+	 */
 	function lastIndexOf(array, item) {
 		if (array == null) return -1;
 	    if (nativeLastIndexOf && array.lastIndexOf === nativeLastIndexOf) return array.lastIndexOf(item);
@@ -632,14 +720,35 @@
 	    while (i--) if (i in array && array[i] === item) return i;
 	    return -1;
 	}
+	
+	/**
+	 * @memberof A
+	 * @func
+	 * @param {array} array 대상 객체
+	 * @param {array} fns [function1, functio2..]
+	 * @returns {array} [fns[0](array[0]), fns[1](array[1]),...]을 반환한다.
+	 * @desc {array} [fns[0](array[0]), fns[1](array[1],...]을 반환한다.
+	 * @example
+	 * Asdf.A.batch([1,2,3,4], [function(a){return a-1}, function(a){return a*2}]); //return [0,4,3,4];
+	 */
 	function batch(array, fns){
 		if($_.O.isNotArray(array)) throw new TypeError();
 		return map(array, function(value, i){
 			return ($_.O.isFunction(fns[i]))? fns[i](value): value;
 		});
 	}
+	
+	/**
+	 * @memberof A
+	 * @func
+	 * @param {array} array 대상 객체
+	 * @param {function} fn 실행 함수
+	 * @desc {array} array를 fn의 인자값으로 사용한다.
+	 * @example
+	 * Asdf.A.batch([1,2,3,4], [function(a){return a-1}, function(a){return a*2}]); //return [0,4,3,4];
+	 */
 	function toArguments(array, fn, context){
-		if($_.O.isNotArray(array)) throw new TypeError();
+		if($_.O.isNotArray(array)||$_.O.isNotFunction(fn)) throw new TypeError();
 		return fn.apply(context, array);
 	}
 	$_.O.extend($_.A, {

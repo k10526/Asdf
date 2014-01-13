@@ -28,6 +28,9 @@ test("Asdf.S.template", function(){
 test("Asdf.S.isBlank", function() {
 	ok(Asdf.S.isBlank(' '), 'space is blank');
 });
-test("Asdf.isEmpty", function() {
+test("Asdf.S.isEmpty", function() {
 	ok(Asdf.S.isEmpty(''), '"" is empty');
+});
+test("Asdf.S.toQueryParams", function(){
+	deepEqual(Asdf.S.toQueryParams('a=1&a=2&b=3&c=4'), {a:[1,2],b:3,c:4}, 'toQueryParams');
 });

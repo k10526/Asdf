@@ -1,4 +1,31 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: String.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: String.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * @project Asdf.js
  * @author N3735
  * @namespace
@@ -6,7 +33,7 @@
  */
 (function($_) {
 	$_.S = {};
-	var ScriptFragment = '<script[^>]*>([\\S\\s]*?)<\/script>';
+	var ScriptFragment = '&lt;script[^>]*>([\\S\\s]*?)&lt;\/script>';
 	
 	/**
 	 * @memberof S
@@ -47,12 +74,12 @@
 	 * @returns {string} str에 태그를 제거한다. 
 	 * @desc str에 태그를 제거한다.  
 	 * @example
-	 * Asdf.S.stripTags('a <a href="#">link</a><script>alert("hello world!");</script>'); // return 'a linkalert("hello world!");'
+	 * Asdf.S.stripTags('a &lt;a href="#">link&lt;/a>&lt;script>alert("hello world!");&lt;/script>'); // return 'a linkalert("hello world!");'
 	 * 
 	 */
 	function stripTags(str) {
 		if(!$_.O.isString(str)) throw new TypeError();
-	    return str.replace(/<\w+(\s+("[^"]*"|'[^']*'|[^>])+)?>|<\/\w+>/gi, '');
+	    return str.replace(/&lt;\w+(\s+("[^"]*"|'[^']*'|[^>])+)?>|&lt;\/\w+>/gi, '');
 	}
 	
 	/**
@@ -61,7 +88,7 @@
 	 * @returns {string} str에 script태그를 제거한다. 
 	 * @desc str에 script태그를 제거한다.  
 	 * @example
-	 * Asdf.S.stripScripts('a <a href="#">link</a><script>alert("hello world!");</script>'); // return 'a <a href="#">link</a>'
+	 * Asdf.S.stripScripts('a &lt;a href="#">link&lt;/a>&lt;script>alert("hello world!");&lt;/script>'); // return 'a &lt;a href="#">link&lt;/a>'
 	 * 
 	 */
 	function stripScripts(str) {
@@ -73,47 +100,36 @@
 	 * @memberof S
 	 * @param {string} str 대상 문자열
 	 * @returns {string} html에 출력 가능한 문자로 변경하여 반환한다.
-	 * @desc str에 있는 특정 문자를 <, >, &를 화면에 출력 가능하게 변경한다.  
+	 * @desc str에 있는 특정 문자를 &lt;, >, &amp;를 화면에 출력 가능하게 변경한다.  
 	 * @example
-	 * Asdf.S.escapeHTML('a <a href="#">link</a>'); // return 'a &lt;a href="#"&gt;link&lt;/a&gt;'
+	 * Asdf.S.escapeHTML('a &lt;a href="#">link&lt;/a>'); // return 'a &amp;lt;a href="#"&amp;gt;link&amp;lt;/a&amp;gt;'
 	 * 
 	 */
 	function escapeHTML(str) {
 		if(!$_.O.isString(str)) throw new TypeError();
-	    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+	    return str.replace(/&amp;/g,'&amp;amp;').replace(/&lt;/g,'&amp;lt;').replace(/>/g,'&amp;gt;');
 	}
 	
 	/**
 	 * @memberof S
 	 * @param {string} str 대상 문자열
 	 * @returns {string} str문자를 html 문자로 변경한다.
-	 * @desc str에 있는 특정 문자를 <, >, &를 html문자로 변경한다. escapeHTML와 반대.  
+	 * @desc str에 있는 특정 문자를 &lt;, >, &amp;를 html문자로 변경한다. escapeHTML와 반대.  
 	 * @example
-	 * Asdf.S.unescapeHTML('a &lt;a href="#"&gt;link&lt;/a&gt;'); // return 'a <a href="#">link</a>'
+	 * Asdf.S.unescapeHTML('a &amp;lt;a href="#"&amp;gt;link&amp;lt;/a&amp;gt;'); // return 'a &lt;a href="#">link&lt;/a>'
 	 * 
 	 */
 	function unescapeHTML(str) {
 		if(!$_.O.isString(str)) throw new TypeError();
-	    return stripTags(str).replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
+	    return stripTags(str).replace(/&amp;lt;/g,'&lt;').replace(/&amp;gt;/g,'>').replace(/&amp;amp;/g,'&amp;');
 	}
-	/**
-	 * @memberof S
-	 * @param {string} str 대상 문자열
-	 * @param {string} [separator=&] 값들 간의 구분자
-	 * @param {string} [sepKV==] key value 구분자
-	 * @returns {object} 대상 문자열을 object로 변환한다.
-	 * @desc 대상 문자열을 object로 변환한다.  
-	 * @example
-	 * Asdf.S.toQueryParams('a=1&a=2&b=3&c=4'); // return {a:[1,2],b:3,c:4};
-	 * 
-	 */
 	function toQueryParams(str,separator, sepKV) {
 		if(!$_.O.isString(str)) throw new TypeError();
 		var reduce = $_.A.reduce;
 		var match = trim(str).match(/([^?#]*)(#.*)?$/);
 		if (!match)
 			return {};
-		return reduce(match[1].split(separator || '&'),	function(hash, pair) {
+		return reduce(match[1].split(separator || '&amp;'),	function(hash, pair) {
 			if ((pair = pair.split(sepKV || '='))[0]) {
 				var key = decodeURIComponent(pair.shift()), value = pair.length > 1 ? pair.join('='): pair[0];
 				if (value != undefined)
@@ -140,7 +156,7 @@
 	}
 	function times(str, count) {
 		if(!$_.O.isString(str)) throw new TypeError();
-	    return count < 1 ? '' : new Array(count + 1).join(str);
+	    return count &lt; 1 ? '' : new Array(count + 1).join(str);
 	}
 	function camelize(str) {
 		if(!$_.O.isString(str)) throw new TypeError();
@@ -175,7 +191,7 @@
 	function endsWith(str, pattern) {
 		if(!$_.O.isString(str)||!$_.O.isString(pattern)) throw new TypeError();
 	    var d = str.length - pattern.length;
-	    return d >= 0 && str.indexOf(pattern, d) === d;
+	    return d >= 0 &amp;&amp; str.indexOf(pattern, d) === d;
 	}
 	function isEmpty(str) {
 		if(!$_.O.isString(str)) throw new TypeError();
@@ -223,7 +239,7 @@
 				data[i] = str.substring(pos, index);
 				data[++i] = {key:key, text:undefined, toString : function(){return this.text;}};
 				pos = index + m.length;
-				if(pos<str.length)
+				if(pos&lt;str.length)
 					data[++i] = str.substring(pos);
 			});
 		};
@@ -237,9 +253,9 @@
 		};
 		var set = function(index, str) {
 			if($_.O.isNumber(index)){
-				if (index < 1)
+				if (index &lt; 1)
 					throw new Error("index is great than 0");
-				if (data.length <= index * 2 - 1)
+				if (data.length &lt;= index * 2 - 1)
 					throw new Error("index is less than ?s");
 				data[index * 2 - 1].text = str;
 			}
@@ -259,7 +275,7 @@
 		};
 		var toString = function() {
 			var i;
-			for (i = 0; i < data.length; i++) {
+			for (i = 0; i &lt; data.length; i++) {
 				if (data[i].toString() === undefined)
 					throw new Error(((i + 1) / 2) + " undefined");
 			}
@@ -298,3 +314,26 @@
 		template:template
 	});
 })(Asdf);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Namespaces</h3><ul><li><a href="A.html">A</a></li><li><a href="O.html">O</a></li><li><a href="S.html">S</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha3</a> on Mon Jan 13 2014 23:29:03 GMT+0900 (대한민국 표준시)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

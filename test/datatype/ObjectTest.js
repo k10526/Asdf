@@ -126,19 +126,18 @@ test("Asdf.O.toQueryString", function() {
 	var obj = {a:1, b:2, c:[1,2,3,4]};
 	equal(Asdf.O.toQueryString(obj), 'a=1&b=2&c=1&c=2&c=3&c=4', '{a:1, b:2, c:[1,2,3,4] queryString() a=1&b=2&c=1&c=2&c=3&c=4');
 });
+
 test("Asdf.O.get", function() {
-	var obj = {b:{c:{d:1}}};
-	deepEqual(Asdf.O.get(obj, 'b.c.d'), 1, 'get .를 구분자로 했을때 성공');
-	deepEqual(Asdf.O.get(obj, 'b.e.e'), undefined, 'get .를 없는 key 일 경우');
-	deepEqual(Asdf.O.get(obj, '["b"]["c"]["d"]'), 1,'get [""]를 구분자로 했을때 성공');
-	deepEqual(Asdf.O.get(obj, 'b["c"]["d"]'), 1,'get 혼합 구분자로 했을때 성공');
+	var obj = {a:'aa', b:'bb'};
+	equal(Asdf.O.get(obj, 'a'), 'aa','값이 있을 경우');
+	equal(Asdf.O.get(obj, 'c'), null,'값이 없을 경우');
 });
-test("Asdf.O.set", function() {
-	var obj = {b:{c:{d:1}}};
-	Asdf.O.set(obj, 'b.c.d', 2);
-	deepEqual(Asdf.O.get(obj, 'b.c.d'), 2, 'get .를 구분자로 했을때 성공');
-	throws(Asdf.F.curry(Asdf.O.set, obj, 'b.e.e', 2), '부모가 객체가 아닐 경우 set을 할경우 error 발생');
+test("Asdf.O.getOrElse", function() {
+	var obj = {a:'aa', b:'bb'};
+	equal(Asdf.O.getOrElse(obj, 'a', 'cc'), 'aa','값이 있을 경우');
+	equal(Asdf.O.getOrElse(obj, 'c', 'cc'), 'cc','값이 없을 경우');
 });
+
 test("Asdf.O.type", function() {
 	var obj = {
 		a: function(){},

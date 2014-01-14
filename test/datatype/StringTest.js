@@ -8,7 +8,6 @@ test("Asdf.S.template", function(){
 	var t1 = Asdf.S.template('aa {{AA}} bb {{BB}} cc {{CC}}');
 	t1.set('AA', 'bbb');
 	t1.set('BB', 'ccc');
-	//t1.set('CC', 'ddd');
 	t1.set(3, 'ddd');
 	equal(t1.toString(), 'aa bbb bb ccc cc ddd', 'string template');
 	var t2 = Asdf.S.template('aa {{AA}} bb {{BB}} cc {{CC}}');
@@ -28,6 +27,6 @@ test("Asdf.S.template", function(){
 test("Asdf.S.isBlank", function() {
 	ok(Asdf.S.isBlank(' '), 'space is blank');
 });
-test("Asdf.isEmpty", function() {
+test("Asdf.S.isEmpty", function() {
 	ok(Asdf.S.isEmpty(''), '"" is empty');
 });

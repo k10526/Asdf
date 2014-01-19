@@ -592,20 +592,30 @@
 		});
 		return res.join('&');
 	}
-	function get(obj, str) {
-		str = '.'+str;
-		str = str.replace('..','.').replace('.[','[');
-		var f = Function("obj", "try{return obj"+str+";}catch(e){return undefined}");
-		return f(obj);
+	function remove(obj, key) {
+		if(isNotObject(obj)) throw new TypeError();
+		var res;
+		if((res = key in obj)){
+			delete obj[key];
+		}
+		return res;
 	}
+	function getOrElse(obj, key, defult){
+		if(isNotObject(obj)) throw new TypeError();
+		if(key in obj)
+			return obj[key];
+		return defult;
+	}
+	
+	var get = partial(getOrElse, undefined, undefined, null);
+	
 	function has(obj,str){
 		return get(obj, str)!== undefined;
 	}
-	function set(obj, str, value) {
-		str = '.'+str;
-		str = str.replace('..','.').replace('.[','[');
-		var f = Function("obj","value", "obj"+str+"=value;");
-		return f(obj, value);
+	
+	function set(obj, key, value){
+		if(isNotObject(obj)) throw new TypeError();
+		obj[key] = value;
 	}
 	/**
 	 * @memberof O
@@ -684,6 +694,7 @@
 		clone: clone,
 		toQueryString: toQueryString,
 		get: get,
+		getOrElse: getOrElse,
 		set: set,
 		type:type
 	});

@@ -38,6 +38,7 @@ test("Asdf.F.after", function() {
 		return a*a;
 	}
 	equal(Asdf.F.after(fn, a)(2), 8, 'after ok');
+	equal(Asdf.F.after(function(a){return false}, function(res){ return !res}, true)(), false, 'stop ok');
 });
 test("Asdf.F.methodize", function() {
 	var obj = {};
@@ -80,4 +81,19 @@ test("Asdf.F.and", function() {
 		return a<20;
 	}
 	ok(Asdf.F.and(fn, fn1, fn2)(9), 'all true');
+});
+test("Asdf.F.partial", function(){
+	function f(a,b){
+		return a/b;
+	}
+	equal(Asdf.F.partial(f, undefined, 2)(4), 2, 'partial');
+});
+test("Asdf.F.orElse", function(){
+	function fn(i){
+		return i-1;
+	}
+	function elseFn(i){
+		return i+1;
+	}
+	equal(Asdf.F.orElse(fn, elseFn)(1), 2, 'orElse ok');
 });

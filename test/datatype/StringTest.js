@@ -33,3 +33,39 @@ test("Asdf.S.isEmpty", function() {
 test("Asdf.S.toQueryParams", function(){
 	deepEqual(Asdf.S.toQueryParams('a=1&a=2&b=3&c=4'), {a:['1','2'],b:'3',c:'4'}, 'toQueryParams');
 });
+test("Asdf.S.toArray", function(){
+	deepEqual(Asdf.S.toArray('abc'), ['a','b','c'], 'toArray ok');
+});
+test("Asdf.S.succ", function(){
+	equal(Asdf.S.succ('a'), 'b', 'succ ok');
+});
+test("Asdf.S.times", function(){
+	equal(Asdf.S.times('abc', 3), 'abcabcabc', 'times ok');
+});
+test("Asdf.S.camelize", function(){
+	equal(Asdf.S.camelize('background-color'), 'backgroundColor', 'camelize ok');
+});
+test("Asdf.S.capitalize", function(){
+	equal(Asdf.S.capitalize('background'), 'Background', 'capitalize ok');
+});
+test("Asdf.S.underscore", function(){
+	equal(Asdf.S.underscore('backgroundColor'), 'background_color', 'underscore ok');
+});
+test("Asdf.S.dasherize", function(){
+	equal(Asdf.S.dasherize('background_color'), 'background-color', 'dasherize ok');
+});
+test("Asdf.S.include", function(){
+	ok(Asdf.S.include('background_color', 'or'), 'include ok');
+});
+test("Asdf.S.startsWith", function(){
+	ok(Asdf.S.startsWith('background_color', 'back'), 'startsWith ok');
+});
+test("Asdf.S.endsWith", function(){
+	ok(Asdf.S.endsWith('background_color', 'color'), 'endsWith ok');
+});
+test("Asdf.S.lpad", function(){
+	equal(Asdf.S.lpad('1', '0', 4), '0001', 'lpad ok');
+});
+test("Asdf.S.rpad", function(){
+	equal(Asdf.S.rpad('1', '0', 4), '1000', 'rpad ok');
+});

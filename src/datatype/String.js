@@ -129,29 +129,89 @@
 			return hash;
 		}, {});
 	}
+	
+	/**
+	 * @memberof S
+	 * @param {string} str 대상 문자열
+	 * @returns {array} 대상 문자열을 array로 변환한다.
+	 * @desc 대상 문자열을 array로 변환한다.  
+	 * @example
+	 * Asdf.S.toArray('abc'); // return ['a','b','c'];
+	 * 
+	 */
 	function toArray(str) {
 		if(!$_.O.isString(str)) throw new TypeError();
 	    return str.split('');
 	}
+	/**
+	 * @memberof S
+	 * @param {string} str 대상 문자열
+	 * @returns {string} 다음 문자열을 반환한다.
+	 * @desc keycode가 다음인 문자열을 반환한다.
+	 * @example
+	 * Asdf.S.succ('a'); // return 'b';
+	 * 
+	 */
 	function succ(str) {
 		if(!$_.O.isString(str)) throw new TypeError();
 	    return str.slice(0, str.length - 1) +
 	      String.fromCharCode(str.charCodeAt(str.length - 1) + 1);
 	}
+	
+	/**
+	 * @memberof S
+	 * @param {string} str 대상 문자열
+	 * @param {number} count 대상 문자열 횟수
+	 * @returns {string} 대상 문자열을 count 횟수 만큼 반복하여 반환한다.
+	 * @desc 대상 문자열을 count 횟수 만큼 반복하여 반환한다.
+	 * @example
+	 * Asdf.S.times('abc',3); // return 'abcabcabc'
+	 * 
+	 */
 	function times(str, count) {
 		if(!$_.O.isString(str)) throw new TypeError();
 	    return count < 1 ? '' : new Array(count + 1).join(str);
 	}
+	
+	/**
+	 * @memberof S
+	 * @param {string} str 대상 문자열
+	 * @returns {string} background-color -> backgroundColor.
+	 * @desc -를 없애고 다음 문자를 대문자로 변경한다.
+	 * @example
+	 * Asdf.S.camelize('background-color'); // return 'backgroundColor'
+	 * 
+	 */
 	function camelize(str) {
 		if(!$_.O.isString(str)) throw new TypeError();
 	    return str.replace(/-+(.)?/g, function(match, chr) {
 	      return chr ? chr.toUpperCase() : '';
 	    });
 	}
+	
+	/**
+	 * @memberof S
+	 * @param {string} str 대상 문자열
+	 * @returns {string} background -> Background.
+	 * @desc 첫문자를 대문자로 이후 문자를 소문자로 바꾼다.
+	 * @example
+	 * Asdf.S.capitalize('background'); // return 'Background'
+	 * 
+	 */
 	function capitalize(str) {
 		if(!$_.O.isString(str)) throw new TypeError();
 	    return str.charAt(0).toUpperCase() + str.substring(1).toLowerCase();
 	}
+	
+	/**
+	 * @memberof S
+	 * @param {string} str 대상 문자열
+	 * @returns {string} backgroundColor -> background_color
+	 * @desc 대문자 앞에 _변경하고 대문자를 소문자로 바꾸어 반환한다.
+	 * @example
+	 * Asdf.S.underscore('backgroundColor'); // return 'background_color'
+	 * 
+	 */
 	function underscore(str) {
 		if(!$_.O.isString(str)) throw new TypeError();
 	    return str.replace(/::/g, '/')
@@ -160,37 +220,118 @@
 	               .replace(/-/g, '_')
 	               .toLowerCase();
 	}
+	
+	/**
+	 * @memberof S
+	 * @param {string} str 대상 문자열
+	 * @returns {string} background_color -> background-color
+	 * @desc _를 -로 변경한다.
+	 * @example
+	 * Asdf.S.dasherize('background_color'); // return 'background-color'
+	 * 
+	 */
 	function dasherize(str) {
 		if(!$_.O.isString(str)) throw new TypeError();
 	    return str.replace(/_/g, '-');
 	}
+	
+	/**
+	 * @memberof S
+	 * @param {string} str 대상 문자열
+	 * @param {string} pattern 찾는 문자열
+	 * @returns {boolean} 대상 문자열에 찾는 문자열이 있으면 true를 반환한다.
+	 * @desc 대상 문자열에 찾는 문자열이 있으면 true를 반환한다.
+	 * @example
+	 * Asdf.S.include('background_color', 'or'); // return true;
+	 * 
+	 */
 	function include(str, pattern) {
 		if(!$_.O.isString(str)||!$_.O.isString(pattern)) throw new TypeError();
 	    return str.indexOf(pattern) > -1;
 	}
+	
+	/**
+	 * @memberof S
+	 * @param {string} str 대상 문자열
+	 * @param {string} pattern 찾는 문자열
+	 * @returns {boolean} 대상 문자열 앞에 찾는 문자열이 있으면 true를 반환한다.
+	 * @desc 대상 문자열 앞에 찾는 문자열이 있으면 true를 반환한다.
+	 * @example
+	 * Asdf.S.startsWith('background_color', 'back'); // return true;
+	 * 
+	 */
 	function startsWith(str, pattern) {
 		if(!$_.O.isString(str)||!$_.O.isString(pattern)) throw new TypeError();
 	    return str.lastIndexOf(pattern, 0) === 0;
 	}
+	
+	/**
+	 * @memberof S
+	 * @param {string} str 대상 문자열
+	 * @param {string} pattern 찾는 문자열
+	 * @returns {boolean} 대상 문자열 마지막에 찾는 문자열이 있으면 true를 반환한다.
+	 * @desc 대상 문자열 마지막에 찾는 문자열이 있으면 true를 반환한다.
+	 * @example
+	 * Asdf.S.endsWith('background_color', 'color'); // return true;
+	 * 
+	 */
 	function endsWith(str, pattern) {
 		if(!$_.O.isString(str)||!$_.O.isString(pattern)) throw new TypeError();
 	    var d = str.length - pattern.length;
 	    return d >= 0 && str.indexOf(pattern, d) === d;
 	}
+	
+	/**
+	 * @memberof S
+	 * @param {string} str 대상 문자열
+	 * @returns {boolean} 대상 문자열이 빈값이면 true를 반환한다.
+	 * @desc 대상 문자열이 빈값이면 true를 반환한다.
+	 * @example
+	 * Asdf.S.isEmpty(''); // return true;
+	 * 
+	 */
 	function isEmpty(str) {
 		if(!$_.O.isString(str)) throw new TypeError();
 	    return str == '';
 	}
+	
+	/**
+	 * @memberof S
+	 * @param {string} str 대상 문자열
+	 * @returns {boolean} 대상 문자열이 빈 값 또는 공백 문자일 경우 true를 반환한다.
+	 * @desc 대상 문자열이 빈 값 또는 공백 문자일 경우 true를 반환한다.
+	 * @example
+	 * Asdf.S.isBlank(' '); // return true;
+	 * 
+	 */
 	function isBlank(str) {
 		if(!$_.O.isString(str)) throw new TypeError();
 	    return /^\s*$/.test(str);
 	}
+	
+	/**
+	 * @memberof S
+	 * @param {string} str 대상 문자열
+	 * @returns {node} 대상 문자열을 node로 변경한다.
+	 * @desc 대상 문자열을 node로 변경한다.
+	 * @example
+	 * Asdf.S.toElement('<div id='abc'>abc</div> '); // return <div id='abc'>abc</div>;
+	 * 
+	 */
 	function toElement(str){
 		if(!$_.O.isString(str)) throw new TypeError();
 		var el = document.createElement('div');
 		el.innerHTML = str;
 		return el.firstChild;
 	}
+	
+	/**
+	 * @memberof S
+	 * @param {string} str 대상 문자열
+	 * @returns {documentFragment} 대상 문자열을 element로 변경 한 후 그 element를 documentFragment에 넣어서 반환한다.
+	 * @desc 대상 문자열을 element로 변경 한 후 그 element를 documentFragment에 넣어서 반환한다.
+	 * 
+	 */
 	function toDocumentFragment(str) {
 		if(!$_.O.isString(str)) throw new TypeError();
 		var el = document.createElement('div'), frg = document.createDocumentFragment();
@@ -198,14 +339,68 @@
 		while(el.childNodes.length) frg.appendChild(el.childNodes[0]);
 		return frg;	
 	}
+	
+	/**
+	 * @memberof S
+	 * @param {string} str 대상 문자열
+	 * @param {string] padStr 추가할 문자열
+	 * @param {number} length 만들 문자열 길이
+	 * @returns {string} 대상 문자열에 왼쪽에 추가 문자열을 넣어 length만큼 길이를 만들어서 반환한다. 
+	 * @desc 대상 문자열에 왼쪽에 추가 문자열을 넣어 length만큼 길이를 만들어서 반환한다. 
+	 * @example
+	 * Asdf.S.lpad('1', '0', 4); // return '0001';
+	 * 
+	 */
 	function lpad(str, padStr, length){
 		if(!$_.O.isString(str) || !$_.O.isNumber(length)) throw new TypeError();
 		return (new Array(length+1).join(padStr)+str).slice(-length);
 	}
+	
+	/**
+	 * @memberof S
+	 * @param {string} str 대상 문자열
+	 * @param {string] padStr 추가할 문자열
+	 * @param {number} length 만들 문자열 길이
+	 * @returns {string} 대상 문자열에 오른쪽에 추가 문자열을 넣어 length만큼 길이를 만들어서 반환한다. 
+	 * @desc 대상 문자열에 오른쪽쪽에 추가 문자열을 넣어 length만큼 길이를 만들어서 반환한다. 
+	 * @example
+	 * Asdf.S.rpad('1', '0', 4); // return '1000';
+	 * 
+	 */
 	function rpad(str, padStr, length){
 		if(!$_.O.isString(str) || !$_.O.isNumber(length)) throw new TypeError();
 		return (str + new Array(length+1).join(padStr)).slice(0,length);
 	}
+	
+	/**
+	 * @memberof S
+	 * @param {string} str 대상 문자열
+	 * @param {regexp} reg 정규 표현식
+	 * @returns {template} template
+	 * @desc template 객체를 반환한다. template.set(1, 'abc');... template.toString(); 
+	 * @example
+	 * var t = Asdf.S.template('aa ? bb ? cc ?', /\?/g);
+	 * t.set(1, 'bbb');
+	 * t.set(2, 'ccc');
+	 * t.set(3, 'ddd');
+	 * t.toString(); // return 'aa bbb bb ccc cc ddd';
+	 * 
+	 * var t1 = Asdf.S.template('aa {{AA}} bb {{BB}} cc {{CC}}');
+	 * t1.set('AA', 'bbb');
+	 * t1.set('BB', 'ccc');
+	 * t1.set(3, 'ddd');
+	 * t1.toString(); // return 'aa bbb bb ccc cc ddd';
+	 * 
+	 * var t2 = Asdf.S.template('aa {{AA}} bb {{BB}} cc {{CC}}');
+	 * var obj = {AA: 'bbb', BB:'ccc', CC: 'ddd'};
+	 * t2.set(obj);
+	 * 
+	 * var t3 = Asdf.S.template('aa <?AA?> bb <?BB?> cc <?CC?>', /\<\?([\s\S]+?)\?\>/g);
+	 * t3.set(1, 'bbb');
+	 * t3.set(2, 'ccc');
+	 * t3.set(3, 'ddd');
+	 * t3.toString(); // return 'aa bbb bb ccc cc ddd'
+	 */
 	function template(str, reg){
 		if (!$_.O.isString(str))
 			throw new TypeError();

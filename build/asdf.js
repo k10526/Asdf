@@ -593,6 +593,22 @@
 		
 		return res;
 	}
+    function cases(obj, defaults){
+        if(!isPlainObject(obj) || !isFunction(defaults)) throw new TypeError();
+        defaults = defaults || function(){};
+        return function(key){
+            var arg = slice.call(arguments, 1);
+            var fn;
+            if(fn = get(obj, key)){
+                if(isFunction(fn)){
+                    return fn.apply(this, arg);
+                }
+                return fn;
+            }else {
+                return defaults.apply(this, arg);
+            }
+        }
+    }
 	extend($_.O, {
 		each: each,
 		map: map,
@@ -643,7 +659,8 @@
 		get: get,
 		getOrElse: getOrElse,
 		set: set,
-		type:type
+		type:type,
+        cases:cases
 	});
 })(Asdf);
 (function($_) {
@@ -711,11 +728,12 @@
 		};
 	};
 	
-	function after(func, after){
+	function after(func, after, stop){
 		if(!$_.O.isFunction(func)||!$_.O.isFunction(after)) throw new TypeError;
 		return function() {
-			var a = $_.A.merge([func.apply(this, arguments)], arguments);
-			return after.apply(this, a);
+			var res = func.apply(this, arguments);
+			if(!res && stop) return res;
+			return after.apply(this, $_.A.merge([res], arguments));
 		};
 	};
 	
@@ -750,6 +768,8 @@
 	};
 	var extract = before($_.Core.combine.extract, exisFunction);
 	
+	var partial = before($_.Core.combine.partial, exisFunction);
+	
 	function or(){
 		var fns = $_.A.filter(slice.call(arguments), $_.O.isFunction);
 		return function(){
@@ -773,6 +793,16 @@
 			return true;
 		};
 	}
+	var then = partial(after, undefined, undefined, true);
+	
+	function orElse(func, elseFn){
+		if(!$_.O.isFunction(func)||!$_.O.isFunction(elseFn)) throw new TypeError;
+		return function() {
+			var res = func.apply(this, arguments);
+			if(res) return res;
+			return elseFn.apply(this, arguments);
+		};
+	}
 	$_.O.extend($_.F, {
 		identity: identity,
 		bind: bind,
@@ -786,8 +816,11 @@
 		compose:compose,
 		composeRight:composeRight,
 		extract:extract,
+		partial: partial,
 		or: or,
-		and: and
+		and: and,
+		then: then,
+		orElse: orElse
 	}, true);
 
 })(Asdf);(function($_) {

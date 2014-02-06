@@ -1,0 +1,25 @@
+{
+    "framework": "qunit",
+    "src_files": [
+        "src/namespace.js",
+        "src/core/Core.js",
+        "src/datatype/Object.js",
+        "src/datatype/Function.js",
+        "src/datatype/Array.js",
+        "src/datatype/String.js",
+        "src/datatype/Argument.js",
+        "src/datatype/Number.js",
+        "src/dataType/Prototype.js",
+        "src/bom/bom.js",
+        "src/event/Event.js",
+        "src/dom/Element.js",
+        "src/util/utils.js",
+        "src/util/Callbacks.js",
+        "src/util/Promise.js",
+        "src/base/base.js",
+        "src/ajax/Ajax.js",
+        "src/history/History.js",
+        "src/dom/Template.js",
+        "test/**/*Test.js"
+    ]
+}

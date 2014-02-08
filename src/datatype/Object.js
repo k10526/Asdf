@@ -646,6 +646,22 @@
 		
 		return res;
 	}
+    function cases(obj, defaults){
+        if(!isPlainObject(obj) || !isFunction(defaults)) throw new TypeError();
+        defaults = defaults || function(){};
+        return function(key){
+            var arg = slice.call(arguments, 1);
+            var fn;
+            if(fn = get(obj, key)){
+                if(isFunction(fn)){
+                    return fn.apply(this, arg);
+                }
+                return fn;
+            }else {
+                return defaults.apply(this, arg);
+            }
+        }
+    }
 	extend($_.O, {
 		each: each,
 		map: map,
@@ -696,6 +712,7 @@
 		get: get,
 		getOrElse: getOrElse,
 		set: set,
-		type:type
+		type:type,
+        cases:cases
 	});
 })(Asdf);

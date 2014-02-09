@@ -1,3 +1,4 @@
+module("Asdf.P");
 test("Asdf.P.mix", function(){
 	var fn = function() {};
 	var obj1 = {a:function(a){return a+2;}};

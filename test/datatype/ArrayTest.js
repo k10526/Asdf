@@ -1,3 +1,4 @@
+module("Asdf.A")
 test("Asdf.A.batch", function(){
 	function not(t) {
 		return !t;

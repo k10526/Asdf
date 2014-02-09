@@ -1,3 +1,4 @@
+module("Asdf.F")
 test("Asdf.F.identity", function(){
 	equal(Asdf.F.identity('abc'), 'abc', 'indentity ok');
 });

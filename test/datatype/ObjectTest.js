@@ -1,3 +1,4 @@
+module("Asdf.O")
 test("Asdf.O.extend", function(){
 	var dObj = {a:1, b:2};
 	var sObj = {b:3, c:4};

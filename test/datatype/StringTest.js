@@ -1,3 +1,4 @@
+module("Asdf.S")
 test("Asdf.S.template", function(){
 	var t = Asdf.S.template('aa ? bb ? cc ?', /\?/g);
 	t.set(1, 'bbb');

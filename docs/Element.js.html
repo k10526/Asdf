@@ -1,4 +1,31 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: dom/Element.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: dom/Element.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * @project Asdf.js
  * @author N3735
  * @namespace Element
@@ -21,7 +48,7 @@
 	function recursively( element, property ) {
 		do {
 			element = element[ property ];
-		} while ( element && element.nodeType !== 1 );
+		} while ( element &amp;&amp; element.nodeType !== 1 );
 		return element;
 	}
     /**
@@ -32,15 +59,15 @@
      * @returns {element} 대상 element
      * @desc 대상element를 포함하여 자식들을 돌면서 실행 함수를 실행한다. 실행함수의 첫 번째 인자로 element가 들어간다.
      * @example
-     * //element = <div>aa<div>bb</div><div>cc</div></div>
+     * //element = &lt;div>aa&lt;div>bb&lt;/div>&lt;div>cc&lt;/div>&lt;/div>
      * Asdf.Element.walk(e, Asdf.F.partial(Asdf.Element.addClass, undefined, '11'));
-     * //return <div class="11">aa<div class="11">bb</div><div class="11">cc</div></div>
+     * //return &lt;div class="11">aa&lt;div class="11">bb&lt;/div>&lt;div class="11">cc&lt;/div>&lt;/div>
      */
 	function walk(element, fun, context) {
 		context = context || this;
 		var i, childNodes = $_.A.toArray(element.childNodes);
 		fun.call(context, element);
-		for (i = 0; i < childNodes.length ; i++) {
+		for (i = 0; i &lt; childNodes.length ; i++) {
 			walk(childNodes[i], fun);
 		}
 		return element;
@@ -115,7 +142,7 @@
      * @desc value가 존재 하면 element에 해당 value를 넣고 value가 존재하지 않으면 해당 element의 text값을 반환한다.
      * @example
      * var div = document.createElement('div');
-     * Asdf.Element.text(div, 'hi'); //return <div>hi</div>
+     * Asdf.Element.text(div, 'hi'); //return &lt;div>hi&lt;/div>
      * Asdf.Element.text(div); //return "hi";
      */
 	function text(element, value) {
@@ -164,7 +191,7 @@
      * @desc html가 존재 하면 element.innerHTML에 해당 html를 넣고 html가 존재하지 않으면 element.innerHTML 값을 반환한다.
      * @example
      * var div = document.createElement('div');
-     * Asdf.Element.html(div, 'hi'); //return <div>hi</div>
+     * Asdf.Element.html(div, 'hi'); //return &lt;div>hi&lt;/div>
      * Asdf.Element.html(div); //return "hi";
      */
 	function html(element, html) {
@@ -226,19 +253,6 @@
 			throw new TypeError();
 		return recursively(element, 'nextSibling');
 	}
-    /**
-     * @memberof Element
-     * @param {element} element 대상element
-     * @returns {element} 대상element previousSibling 반환한다.
-     * @desc 대상element previousSibling 반환한다.
-     * @example
-     * var p = document.createElement('div');
-     * var pc = document.createElement('div');
-     * var c = document.createElement('div');
-     * p.appendChild(pc);
-     * p.appendChild(c);
-     * Asdf.Element.prev(c); //return nc;
-     */
 	function prev(element){
 		if(!$_.O.isNode(element))
 			throw new TypeError();
@@ -337,10 +351,10 @@
 			return null;
 		}
 		if(value == null){
-			if(name === 'value' && element.nodeName === 'INPUT' ){
+			if(name === 'value' &amp;&amp; element.nodeName === 'INPUT' ){
 				return element.value;
 			}
-			return (!(result = element.getAttribute(name)) && name in element) ? element[name] : result;
+			return (!(result = element.getAttribute(name)) &amp;&amp; name in element) ? element[name] : result;
 		}else {
 			if (typeof name === 'object'){
 				for (key in name)
@@ -453,7 +467,7 @@
 	function hasClass(element, name) {
 		if(!$_.O.isNode(element)||!$_.O.isString(name))
 			throw new TypeError();
-		return element.className && new RegExp("(^|\\s)" + name + "(\\s|$)").test(element.className);
+		return element.className &amp;&amp; new RegExp("(^|\\s)" + name + "(\\s|$)").test(element.className);
 	}
 	function find(element, selector, results, seed){
 		if(!$_.O.isNode(element))
@@ -473,7 +487,7 @@
 			var a=element.all, c=[], selector = selector.replace(/\[for\b/gi, '[htmlFor').split(','), i, j,s=document.createStyleSheet();
 			for (i=selector.length; i--;) {
 				s.addRule(selector[i], 'k:v');
-				for (j=a.length; j--;) a[j].currentStyle.k && c.push(a[j]);
+				for (j=a.length; j--;) a[j].currentStyle.k &amp;&amp; c.push(a[j]);
 				s.removeRule(0);
 			}
 			return c;
@@ -482,8 +496,8 @@
 	function closest(element, selector, context){
 		if(!$_.O.isNode(element))
 			throw new TypeError();
-		while (element && !matchesSelector(element, selector))
-			element = element !== context && element !== document && element.parentNode;
+		while (element &amp;&amp; !matchesSelector(element, selector))
+			element = element !== context &amp;&amp; element !== document &amp;&amp; element.parentNode;
 	    return element;
 	}
 	function matchesSelector(element, selector){
@@ -496,7 +510,7 @@
 	    var match, parent = element.parentNode, temp = !parent;
 	    if (temp) (parent = tempParent).appendChild(element);
 	    var match =  $_.A.indexOf( find(parent, selector), element);
-	    temp && tempParent.removeChild(element);
+	    temp &amp;&amp; tempParent.removeChild(element);
 	    return match===-1? false: true;
 	}
 	function css(element, name, value){
@@ -510,7 +524,7 @@
 			// IE
 			if (element.currentStyle) {
 				cssStyle = element.currentStyle;
-			} else if (document.defaultView &&
+			} else if (document.defaultView &amp;&amp;
 					document.defaultView.getComputedStyle) {
 				cssStyle = document.defaultView.getComputedStyle(element, null);
 			} else {
@@ -519,7 +533,7 @@
 			var styleVal = $_.O.extend({},element.style);
 			$_.O.each(styleVal, function(value, key, obj) {
 				if(!value || value == 'auto')
-					obj[key] = cssStyle[key] && cssStyle[key] != 'auto'?  cssStyle[key]: '';
+					obj[key] = cssStyle[key] &amp;&amp; cssStyle[key] != 'auto'?  cssStyle[key]: '';
 			});
 			if(!name) {
 				return styleVal;
@@ -528,7 +542,7 @@
 				res = styleVal[name];
 			} else if($_.O.isArray(name)){
 				res = {};
-				for (i = 0; i < name.length; i++) {
+				for (i = 0; i &lt; name.length; i++) {
 					res[name[i]] = styleVal[name[i]];
 				}
 			} else 
@@ -596,4 +610,26 @@
 		toHTML: toHTML,
 		isWhitespace: isWhitespace
 	});
-})(Asdf);
+})(Asdf);</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Namespaces</h3><ul><li><a href="A.html">A</a></li><li><a href="Element.html">Element</a></li><li><a href="F.html">F</a></li><li><a href="O.html">O</a></li><li><a href="S.html">S</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha4</a> on Sun Feb 09 2014 19:58:05 GMT+0900 (대한민국 표준시)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

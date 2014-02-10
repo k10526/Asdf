@@ -93,3 +93,76 @@ test("Asdf.Element.prev", function(){
     div.appendChild(c);
     equal(Asdf.Element.prev(c), pc, 'prev ok');
 });
+test("Asdf.Element.nexts", function(){
+    var c = document.createElement('div');
+    var nc1 = document.createElement('div');
+    var nc2 = document.createElement('div');
+    div.appendChild(c);
+    div.appendChild(nc1);
+    div.appendChild(nc2);
+    var nexts = Asdf.Element.nexts(c);
+    var nextsUtil = Asdf.Element.nexts(c, nc1);
+    throws(function(){Asdf.Element.nexts('1')}, 'not Element throw Exceptions');
+    ok(Asdf.A.include(nexts, nc1)&&Asdf.A.include(nexts, nc2), 'nexts ok');
+    ok(Asdf.A.include(nextsUtil, nc1)&&!Asdf.A.include(nextsUtil, nc2), 'nexts util ok');
+});
+test("Asdf.Element.nexts", function(){
+    var c = document.createElement('div');
+    var pc1 = document.createElement('div');
+    var pc2 = document.createElement('div');
+    div.appendChild(pc1);
+    div.appendChild(pc2);
+    div.appendChild(c);
+
+    var prevs = Asdf.Element.prevs(c);
+    var prevsUtil = Asdf.Element.prevs(c, pc2);
+    throws(function(){Asdf.Element.prevs('1')}, 'not Element throw Exceptions');
+    ok(Asdf.A.include(prevs, pc1)&&Asdf.A.include(prevs, pc2), 'prevs ok');
+    ok(Asdf.A.include(prevsUtil, pc2)&&!Asdf.A.include(prevsUtil, pc1), 'prevs util ok');
+});
+test("Asdf.Element.nexts", function(){
+    var c = document.createElement('div');
+    var pc = document.createElement('div');
+    var nc = document.createElement('div');
+    div.appendChild(pc);
+    div.appendChild(c);
+    div.appendChild(nc);
+
+    var siblings = Asdf.Element.siblings(c);
+    throws(function(){Asdf.Element.siblings('1')}, 'not Element throw Exceptions');
+    ok(Asdf.A.include(siblings, pc)&&Asdf.A.include(siblings, nc), 'siblings ok');
+});
+test("Asdf.Element.children", function(){
+    var text = document.createTextNode('aa');
+    var c = document.createElement('div');
+    var pc = document.createElement('div');
+    var nc = document.createElement('div');
+    div.appendChild(text);
+    div.appendChild(pc);
+    div.appendChild(c);
+    div.appendChild(nc);
+
+    var children = Asdf.Element.children(div);
+    throws(function(){Asdf.Element.children('1')}, 'not Element throw Exceptions');
+    ok(Asdf.A.include(children, pc)&&Asdf.A.include(children, nc)&&Asdf.A.include(children, c)&&Asdf.A.include(children, text), 'children ok');
+});
+test("Asdf.Element.contents", function(){
+    var text = document.createTextNode('aa');
+    var c = document.createElement('div');
+    var pc = document.createElement('div');
+    var nc = document.createElement('div');
+    div.appendChild(text);
+    div.appendChild(pc);
+    div.appendChild(c);
+    div.appendChild(nc);
+
+    var contents = Asdf.Element.contents(div);
+    throws(function(){Asdf.Element.contents('1')}, 'not Element throw Exceptions');
+    ok(Asdf.A.include(contents, pc)&&Asdf.A.include(contents, nc)&&Asdf.A.include(contents, c)&&Asdf.A.include(contents, text), 'contents ok');
+    var iframe = document.createElement('iframe');
+    document.body.appendChild(iframe);
+    var doc = Asdf.Element.contents(iframe);
+    ok(doc.nodeType===9&&(document!=doc), 'iframe ok');
+    Asdf.Element.remove(iframe);
+
+});

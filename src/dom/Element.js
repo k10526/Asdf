@@ -244,30 +244,112 @@
 			throw new TypeError();
 		return recursively(element, 'previousSibling');
 	}
+    /**
+     * @memberof Element
+     * @param {element} element 대상element
+     * @param {element=} until 최종element
+     * @returns {array} 대상element에서 최종element까지 nextSibling들을 반환한다.
+     * @desc 대상element에서 최종element까지 nextSibling들을 반환한다.
+     * @example
+     * var p = document.createElement('div');
+     * var c = document.createElement('div');
+     * var nc1 = document.createElement('div');
+     * var nc2 = document.createElement('div');
+     * p.appendChild(c);
+     * p.appendChild(nc1);
+     * p.appendChild(nc2);
+     * Asdf.Element.nexts(c); //return [nc1, nc2];
+     */
 	function nexts(element, until) {
 		if(!$_.O.isNode(element))
 			throw new TypeError();
 		return recursivelyCollect(element, 'nextSibling', until);
 	}
+    /**
+     * @memberof Element
+     * @param {element} element 대상element
+     * @param {element=} until 최종element
+     * @returns {array} 대상element에서 최종element까지 previousSibling 반환한다.
+     * @desc 대상element에서 최종element까지 previousSibling 반환한다.
+     * @example
+     * var p = document.createElement('div');
+     * var c = document.createElement('div');
+     * var pc1 = document.createElement('div');
+     * var pc2 = document.createElement('div');
+     * p.appendChild(pc1);
+     * p.appendChild(pc2);
+     * p.appendChild(c);
+     * Asdf.Element.prevs(c); //return [pc2,pc1];
+     */
 	function prevs(element, until) {
 		if(!$_.O.isNode(element))
 			throw new TypeError();
 		return recursivelyCollect(element, 'previousSibling', until);
 	}
+    /**
+     * @memberof Element
+     * @param {element} element 대상element
+     * @returns {array} 본인을 제외한 형제 노드들을 반환한다.
+     * @desc 본인을 제외한 형제 노드들을 반환한다.
+     * @example
+     * var p = document.createElement('div');
+     * var c = document.createElement('div');
+     * var nc = document.createElement('div');
+     * var pc = document.createElement('div');
+     * p.appendChild(pc);
+     * p.appendChild(c);
+     * p.appendChild(nc);
+     * Asdf.Element.siblings(c); //return [pc,nc];
+     */
 	function siblings(element) {
 		if(!$_.O.isNode(element))
 			throw new TypeError();
 		return $_.A.without($_.A.toArray(element.parentNode.childNodes), element);
 	}
+    /**
+     * @memberof Element
+     * @param {element} element 대상element
+     * @returns {array} 자식 노드를 반환한다.
+     * @desc 자식 노드들을 반환한다.
+     * @example
+     * var p = document.createElement('div');
+     * var c = document.createElement('div');
+     * var nc = document.createElement('div');
+     * var pc = document.createElement('div');
+     * var text = document.createTextNode('aa');
+     * p.appendChild(text);
+     * p.appendChild(pc);
+     * p.appendChild(c);
+     * p.appendChild(nc);
+     * Asdf.Element.children(p); //return [text, pc,c,nc];
+     */
 	function children(element) {
 		if(!$_.O.isNode(element))
 			throw new TypeError();
-		return nexts(element.firstChild, 'nextSibling');
+		return Asdf.A.merge([element.firstChild],nexts(element.firstChild, 'nextSibling'));
 	}
+    /**
+     * @memberof Element
+     * @param {element} element 대상element
+     * @returns {element|elements} contents를 반환한다.
+     * @desc contents를 반환한다.
+     * @example
+     * var p = document.createElement('div');
+     * var c = document.createElement('div');
+     * var nc = document.createElement('div');
+     * var pc = document.createElement('div');
+     * p.appendChild(text);
+     * p.appendChild(pc);
+     * p.appendChild(c);
+     * p.appendChild(nc);
+     * Asdf.Element.contents(p); //return [text, pc,c,nc];
+     * var iframe = document.createElement('iframe');
+     * var doc = Asdf.Element.contents(iframe);
+     */
 	function contents(element) {
 		if(!$_.O.isNode(element))
 			throw new TypeError();
-		return (element.nodeName === 'IFRAM')?element.contentDocument||element.contentWindow.document : element.childNodes ;
+		return (element.nodeName === 'IFRAME')? (element.contentDocument||(element.contentWindow&&element.contentWindow.document)) : element.childNodes ;
 	}
 	function wrap(element, newContent) {
 		if(!$_.O.isNode(element)||!$_.O.isNode(newContent))
@@ -414,7 +496,7 @@
 			right : right,
 			left : left
 		};
-	};
+	}
 	function addClass(element, name){
 		if(!$_.O.isNode(element)||!$_.O.isString(name))
 			throw new TypeError();
@@ -424,7 +506,7 @@
 				element.className += (element.className? ' ':'') + name;
 		});
 		return element;
-	};
+	}
 	function removeClass(element, name) {
 		if(!$_.O.isNode(element))
 			throw new TypeError();

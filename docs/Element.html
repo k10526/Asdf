@@ -103,6 +103,297 @@
         <dl>
             
 <dt>
+    <h4 class="name" id="children"><span class="type-signature">&lt;static> </span>children<span class="signature">(element)</span><span class="type-signature"> &rarr; {array}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        자식 노드들을 반환한다.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>element</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">element</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">대상element</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Element.js.html">dom/Element.js</a>, <a href="Element.js.html#line326">line 326</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    자식 노드를 반환한다.
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">array</span>
+
+
+	</dd>
+</dl>
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="prettyprint"><code>var p = document.createElement('div');var c = document.createElement('div');var nc = document.createElement('div');var pc = document.createElement('div');var text = document.createTextNode('aa');p.appendChild(text);p.appendChild(pc);p.appendChild(c);p.appendChild(nc);Asdf.Element.children(p); //return [text, pc,c,nc];</code></pre>
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="contents"><span class="type-signature">&lt;static> </span>contents<span class="signature">(element)</span><span class="type-signature"> &rarr; {element|elements}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        contents를 반환한다.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>element</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">element</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">대상element</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Element.js.html">dom/Element.js</a>, <a href="Element.js.html#line349">line 349</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    contents를 반환한다.
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">element</span>
+|
+
+<span class="param-type">elements</span>
+
+
+	</dd>
+</dl>
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="prettyprint"><code>var p = document.createElement('div');var c = document.createElement('div');var nc = document.createElement('div');var pc = document.createElement('div');p.appendChild(text);p.appendChild(pc);p.appendChild(c);p.appendChild(nc);Asdf.Element.contents(p); //return [text, pc,c,nc];var iframe = document.createElement('iframe');var doc = Asdf.Element.contents(iframe);</code></pre>
+
+    
+</dd>
+
+        
+            
+<dt>
     <h4 class="name" id="hide"><span class="type-signature">&lt;static> </span>hide<span class="signature">(element)</span><span class="type-signature"> &rarr; {element}</span></h4>
     
     
@@ -581,6 +872,193 @@
         
             
 <dt>
+    <h4 class="name" id="nexts"><span class="type-signature">&lt;static> </span>nexts<span class="signature">(element, <span class="optional">until</span>)</span><span class="type-signature"> &rarr; {array}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        대상element에서 최종element까지 nextSibling들을 반환한다.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		<th>Argument</th>
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>element</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">element</span>
+
+
+            
+            </td>
+            
+            
+                <td class="attributes">
+                
+                    
+                
+                    
+                
+                </td>
+            
+            
+            
+            
+            <td class="description last">대상element</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>until</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">element</span>
+
+
+            
+            </td>
+            
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+                    
+                
+                    
+                
+                </td>
+            
+            
+            
+            
+            <td class="description last">최종element</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Element.js.html">dom/Element.js</a>, <a href="Element.js.html#line263">line 263</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    대상element에서 최종element까지 nextSibling들을 반환한다.
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">array</span>
+
+
+	</dd>
+</dl>
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="prettyprint"><code>var p = document.createElement('div');var c = document.createElement('div');var nc1 = document.createElement('div');var nc2 = document.createElement('div');p.appendChild(c);p.appendChild(nc1);p.appendChild(nc2);Asdf.Element.nexts(c); //return [nc1, nc2];</code></pre>
+
+    
+</dd>
+
+        
+            
+<dt>
     <h4 class="name" id="parent"><span class="type-signature">&lt;static> </span>parent<span class="signature">(element)</span><span class="type-signature"> &rarr; {element}</span></h4>
     
     
@@ -912,6 +1390,337 @@
         
             
 <dt>
+    <h4 class="name" id="prev"><span class="type-signature">&lt;static> </span>prev<span class="signature">(element)</span><span class="type-signature"> &rarr; {element}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        대상element previousSibling 반환한다.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>element</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">element</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">대상element</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Element.js.html">dom/Element.js</a>, <a href="Element.js.html#line242">line 242</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    대상element previousSibling 반환한다.
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">element</span>
+
+
+	</dd>
+</dl>
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="prettyprint"><code>var p = document.createElement('div');var pc = document.createElement('div');var c = document.createElement('div');p.appendChild(pc);p.appendChild(c);Asdf.Element.prev(c); //return nc;</code></pre>
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="prevs"><span class="type-signature">&lt;static> </span>prevs<span class="signature">(element, <span class="optional">until</span>)</span><span class="type-signature"> &rarr; {array}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        대상element에서 최종element까지 previousSibling 반환한다.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		<th>Argument</th>
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>element</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">element</span>
+
+
+            
+            </td>
+            
+            
+                <td class="attributes">
+                
+                    
+                
+                    
+                
+                </td>
+            
+            
+            
+            
+            <td class="description last">대상element</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>until</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">element</span>
+
+
+            
+            </td>
+            
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+                    
+                
+                    
+                
+                </td>
+            
+            
+            
+            
+            <td class="description last">최종element</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Element.js.html">dom/Element.js</a>, <a href="Element.js.html#line284">line 284</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    대상element에서 최종element까지 previousSibling 반환한다.
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">array</span>
+
+
+	</dd>
+</dl>
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="prettyprint"><code>var p = document.createElement('div');var c = document.createElement('div');var pc1 = document.createElement('div');var pc2 = document.createElement('div');p.appendChild(pc1);p.appendChild(pc2);p.appendChild(c);Asdf.Element.prevs(c); //return [pc2,pc1];</code></pre>
+
+    
+</dd>
+
+        
+            
+<dt>
     <h4 class="name" id="show"><span class="type-signature">&lt;static> </span>show<span class="signature">(element)</span><span class="type-signature"> &rarr; {element}</span></h4>
     
     
@@ -1049,6 +1858,150 @@
         <h5>Example</h5>
         
     <pre class="prettyprint"><code>var div = document.createElement('div');Asdf.Element.hide(div);Asdf.Element.visible(div); //return false;Asdf.Element.show(div);Asdf.Element.visible(div); //return true;</code></pre>
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="siblings"><span class="type-signature">&lt;static> </span>siblings<span class="signature">(element)</span><span class="type-signature"> &rarr; {array}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        본인을 제외한 형제 노드들을 반환한다.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>element</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">element</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">대상element</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Element.js.html">dom/Element.js</a>, <a href="Element.js.html#line304">line 304</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    본인을 제외한 형제 노드들을 반환한다.
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">array</span>
+
+
+	</dd>
+</dl>
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="prettyprint"><code>var p = document.createElement('div');var c = document.createElement('div');var nc = document.createElement('div');var pc = document.createElement('div');p.appendChild(pc);p.appendChild(c);p.appendChild(nc);Asdf.Element.siblings(c); //return [pc,nc];</code></pre>
 
     
 </dd>
@@ -1956,7 +2909,7 @@
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha4</a> on Sun Feb 09 2014 19:58:05 GMT+0900 (대한민국 표준시)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha4</a> on Tue Feb 11 2014 00:10:17 GMT+0900 (대한민국 표준시)
 </footer>
 
 <script> prettyPrint(); </script>

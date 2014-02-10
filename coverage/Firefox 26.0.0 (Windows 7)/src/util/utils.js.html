@@ -1,0 +1,926 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for ./src/util/utils.js</title>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="../prettify.css">
+
+    <style>
+        body, html {
+            margin:0; padding: 0;
+        }
+        body {
+            font-family: Helvetica Neue, Helvetica,Arial;
+            font-size: 10pt;
+        }
+        div.header, div.footer {
+            background: #eee;
+            padding: 1em;
+        }
+        div.header {
+            z-index: 100;
+            position: fixed;
+            top: 0;
+            border-bottom: 1px solid #666;
+            width: 100%;
+        }
+        div.footer {
+            border-top: 1px solid #666;
+        }
+        div.body {
+            margin-top: 10em;
+        }
+        div.meta {
+            font-size: 90%;
+            text-align: center;
+        }
+        h1, h2, h3 {
+            font-weight: normal;
+        }
+        h1 {
+            font-size: 12pt;
+        }
+        h2 {
+            font-size: 10pt;
+        }
+        pre {
+            font-family: Consolas, Menlo, Monaco, monospace;
+            margin: 0;
+            padding: 0;
+            line-height: 14px;
+            font-size: 14px;
+            -moz-tab-size: 2;
+            -o-tab-size:  2;
+            tab-size: 2;
+        }
+
+        div.path { font-size: 110%; }
+        div.path a:link, div.path a:visited { color: #000; }
+        table.coverage { border-collapse: collapse; margin:0; padding: 0 }
+
+        table.coverage td {
+            margin: 0;
+            padding: 0;
+            color: #111;
+            vertical-align: top;
+        }
+        table.coverage td.line-count {
+            width: 50px;
+            text-align: right;
+            padding-right: 5px;
+        }
+        table.coverage td.line-coverage {
+            color: #777 !important;
+            text-align: right;
+            border-left: 1px solid #666;
+            border-right: 1px solid #666;
+        }
+
+        table.coverage td.text {
+        }
+
+        table.coverage td span.cline-any {
+            display: inline-block;
+            padding: 0 5px;
+            width: 40px;
+        }
+        table.coverage td span.cline-neutral {
+            background: #eee;
+        }
+        table.coverage td span.cline-yes {
+            background: #b5d592;
+            color: #999;
+        }
+        table.coverage td span.cline-no {
+            background: #fc8c84;
+        }
+
+        .cstat-yes { color: #111; }
+        .cstat-no { background: #fc8c84; color: #111; }
+        .fstat-no { background: #ffc520; color: #111 !important; }
+        .cbranch-no { background:  yellow !important; color: #111; }
+        .missing-if-branch {
+            display: inline-block;
+            margin-right: 10px;
+            position: relative;
+            padding: 0 4px;
+            background: black;
+            color: yellow;
+            xtext-decoration: line-through;
+        }
+        .missing-if-branch .typ {
+            color: inherit !important;
+        }
+
+        .entity, .metric { font-weight: bold; }
+        .metric { display: inline-block; border: 1px solid #333; padding: 0.3em; background: white; }
+        .metric small { font-size: 80%; font-weight: normal; color: #666; }
+
+        div.coverage-summary table { border-collapse: collapse; margin: 3em; font-size: 110%; }
+        div.coverage-summary td, div.coverage-summary table  th { margin: 0; padding: 0.25em 1em; border-top: 1px solid #666; border-bottom: 1px solid #666; }
+        div.coverage-summary th { text-align: left; border: 1px solid #666; background: #eee; font-weight: normal; }
+        div.coverage-summary th.file { border-right: none !important; }
+        div.coverage-summary th.pic { border-left: none !important; text-align: right; }
+        div.coverage-summary th.pct { border-right: none !important; }
+        div.coverage-summary th.abs { border-left: none !important; text-align: right; }
+        div.coverage-summary td.pct { text-align: right; border-left: 1px solid #666; }
+        div.coverage-summary td.abs { text-align: right; font-size: 90%; color: #444; border-right: 1px solid #666; }
+        div.coverage-summary td.file { text-align: right; border-left: 1px solid #666; white-space: nowrap;  }
+        div.coverage-summary td.pic { min-width: 120px !important;  }
+        div.coverage-summary a:link { text-decoration: none; color: #000; }
+        div.coverage-summary a:visited { text-decoration: none; color: #333; }
+        div.coverage-summary a:hover { text-decoration: underline; }
+        div.coverage-summary tfoot td { border-top: 1px solid #666; }
+
+        div.coverage-summary .yui3-datatable-sort-indicator, div.coverage-summary .dummy-sort-indicator {
+            height: 10px;
+            width: 7px;
+            display: inline-block;
+            margin-left: 0.5em;
+        }
+        div.coverage-summary .yui3-datatable-sort-indicator {
+            background: url("http://yui.yahooapis.com/3.6.0/build/datatable-sort/assets/skins/sam/sort-arrow-sprite.png") no-repeat scroll 0 0 transparent;
+        }
+        div.coverage-summary .yui3-datatable-sorted .yui3-datatable-sort-indicator {
+            background-position: 0 -20px;
+        }
+        div.coverage-summary .yui3-datatable-sorted-desc .yui3-datatable-sort-indicator {
+            background-position: 0 -10px;
+        }
+
+        .high { background: #b5d592 !important; }
+        .medium { background: #ffe87c !important; }
+        .low { background: #fc8c84 !important; }
+
+        span.cover-fill, span.cover-empty {
+            display:inline-block;
+            border:1px solid #444;
+            background: white;
+            height: 12px;
+        }
+        span.cover-fill {
+            background: #ccc;
+            border-right: 1px solid #444;
+        }
+        span.cover-empty {
+            background: white;
+            border-left: none;
+        }
+        span.cover-full {
+            border-right: none !important;
+        }
+        pre.prettyprint {
+            border: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        .com { color: #999 !important; }
+    </style>
+</head>
+<body>
+<div class="header low">
+    <h1>Code coverage report for <span class="entity">./src/util/utils.js</span></h1>
+    <h2>
+        
+        Statements: <span class="metric">20.29% <small>(28 / 138)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Branches: <span class="metric">6.45% <small>(4 / 62)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Functions: <span class="metric">15.79% <small>(3 / 19)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Lines: <span class="metric">20.74% <small>(28 / 135)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+    </h2>
+    <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">./src/util\</a> &#187; utils.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">(function($_) {
+	$_.Utils = {};
+<span class="fstat-no" title="function not covered" >	function randomMax8HexChars() {</span>
+<span class="cstat-no" title="statement not covered" >		return (((1 + Math.random()) * 0x100000000) | 0).toString(16)</span>
+				.substring(1);
+	}
+<span class="fstat-no" title="function not covered" >	function makeuid() {</span>
+<span class="cstat-no" title="statement not covered" >		return randomMax8HexChars() + randomMax8HexChars();</span>
+	}
+	
+	var ready = (function() {
+		var domReadyfn = [];
+		var timer, defer = $_.F.defer;
+		function fireContentLoadedEvent() {
+			var i;
+			if (document.loaded)
+				return;
+			<span class="missing-if-branch" title="if path not taken"" >I</span>if (timer)
+<span class="cstat-no" title="statement not covered" >				window.clearTimeout(timer);</span>
+			document.loaded = true;
+			for (i = 0; i &lt; domReadyfn.length; i++) {
+<span class="cstat-no" title="statement not covered" >				domReadyfn[i]($_);</span>
+			}
+		}
+<span class="fstat-no" title="function not covered" >		function checkReadyState() {</span>
+<span class="cstat-no" title="statement not covered" >			if (document.readyState === 'complete') {</span>
+<span class="cstat-no" title="statement not covered" >				document.detachEvent('onreadystatechange', checkReadyState);</span>
+<span class="cstat-no" title="statement not covered" >				fireContentLoadedEvent();</span>
+			}
+		}
+<span class="fstat-no" title="function not covered" >		function pollDoScroll() {</span>
+<span class="cstat-no" title="statement not covered" >			try {</span>
+<span class="cstat-no" title="statement not covered" >				document.documentElement.doScroll('left');</span>
+			} catch (e) {
+<span class="cstat-no" title="statement not covered" >				timer = defer(pollDoScroll);</span>
+<span class="cstat-no" title="statement not covered" >				return;</span>
+			}
+<span class="cstat-no" title="statement not covered" >			fireContentLoadedEvent();</span>
+		}
+		<span class="missing-if-branch" title="else path not taken"" >E</span>if (document.addEventListener) {
+			document.addEventListener('DOMContentLoaded',
+					fireContentLoadedEvent, false);
+			window.addEventListener('load', fireContentLoadedEvent);
+		} else {
+<span class="cstat-no" title="statement not covered" >			document.attachEvent('onreadystatechange', checkReadyState);</span>
+<span class="cstat-no" title="statement not covered" >			if (window == top)</span>
+<span class="cstat-no" title="statement not covered" >				timer = defer(pollDoScroll);</span>
+<span class="cstat-no" title="statement not covered" >			window.attachEvent('onload', fireContentLoadedEvent);</span>
+		}
+		return <span class="fstat-no" title="function not covered" >function(callback) {<span class="cstat-no" title="statement not covered" ></span>domReadyfn.push(callback);}</span>;
+	})();
+<span class="fstat-no" title="function not covered" >	function parseJson(jsonString) {</span>
+<span class="cstat-no" title="statement not covered" >		if (typeof jsonString == "string") {</span>
+<span class="cstat-no" title="statement not covered" >			if (jsonString) {</span>
+<span class="cstat-no" title="statement not covered" >				if (window.JSON &amp;&amp; window.JSON.parse) {</span>
+<span class="cstat-no" title="statement not covered" >					return window.JSON.parse(jsonString);</span>
+				}
+<span class="cstat-no" title="statement not covered" >				return (new Function("return " + jsonString))();</span>
+			}
+		}
+<span class="cstat-no" title="statement not covered" >		return null;</span>
+	}
+<span class="fstat-no" title="function not covered" >	function namespace(/*[parent], ns_string*/) {</span>
+<span class="cstat-no" title="statement not covered" >		var parts, i, parent;</span>
+<span class="cstat-no" title="statement not covered" >		var args = $_.A.toArray(arguments);</span>
+<span class="cstat-no" title="statement not covered" >		if ($_.O.isPlainObject(args[0])) {</span>
+<span class="cstat-no" title="statement not covered" >			parent = args.shift();</span>
+		}
+<span class="cstat-no" title="statement not covered" >		parent = parent || window;</span>
+<span class="cstat-no" title="statement not covered" >		parts = args[0].split('.');</span>
+<span class="cstat-no" title="statement not covered" >		for (i = 0; i &lt; parts.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >			if (typeof parent[parts[i]] === 'undefined') {</span>
+<span class="cstat-no" title="statement not covered" >				parent[parts[i]] = {};</span>
+			}
+<span class="cstat-no" title="statement not covered" >			parent = parent[parts[i]];</span>
+		}
+<span class="cstat-no" title="statement not covered" >		return parent;</span>
+	}
+<span class="fstat-no" title="function not covered" >	function rgbToHsl(r, g, b) {</span>
+<span class="cstat-no" title="statement not covered" >		r /= 255, g /= 255, b /= 255;</span>
+<span class="cstat-no" title="statement not covered" >		var max = Math.max(r, g, b), min = Math.min(r, g, b);</span>
+<span class="cstat-no" title="statement not covered" >		var h, s, l = (max + min) / 2;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		if (max == min) {</span>
+<span class="cstat-no" title="statement not covered" >			h = s = 0; </span>// achromatic
+		} else {
+<span class="cstat-no" title="statement not covered" >			var d = max - min;</span>
+<span class="cstat-no" title="statement not covered" >			s = l &gt; 0.5 ? d / (2 - max - min) : d / (max + min);</span>
+<span class="cstat-no" title="statement not covered" >			switch (max) {</span>
+			case r:
+<span class="cstat-no" title="statement not covered" >				h = (g - b) / d + (g &lt; b ? 6 : 0);</span>
+<span class="cstat-no" title="statement not covered" >				break;</span>
+			case g:
+<span class="cstat-no" title="statement not covered" >				h = (b - r) / d + 2;</span>
+<span class="cstat-no" title="statement not covered" >				break;</span>
+			case b:
+<span class="cstat-no" title="statement not covered" >				h = (r - g) / d + 4;</span>
+<span class="cstat-no" title="statement not covered" >				break;</span>
+			}
+<span class="cstat-no" title="statement not covered" >			h /= 6;</span>
+		}
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		return { h:h, s:s, l:l };</span>
+	}
+<span class="fstat-no" title="function not covered" >	function hslToRgb(h, s, l) {</span>
+<span class="cstat-no" title="statement not covered" >		var r, g, b;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		if (s == 0) {</span>
+<span class="cstat-no" title="statement not covered" >			r = g = b = l; </span>// achromatic
+		} else {
+<span class="fstat-no" title="function not covered" >			function hue2rgb(p, q, t) {</span>
+<span class="cstat-no" title="statement not covered" >				if (t &lt; 0)</span>
+<span class="cstat-no" title="statement not covered" >					t += 1;</span>
+<span class="cstat-no" title="statement not covered" >				if (t &gt; 1)</span>
+<span class="cstat-no" title="statement not covered" >					t -= 1;</span>
+<span class="cstat-no" title="statement not covered" >				if (t &lt; 1 / 6)</span>
+<span class="cstat-no" title="statement not covered" >					return p + (q - p) * 6 * t;</span>
+<span class="cstat-no" title="statement not covered" >				if (t &lt; 1 / 2)</span>
+<span class="cstat-no" title="statement not covered" >					return q;</span>
+<span class="cstat-no" title="statement not covered" >				if (t &lt; 2 / 3)</span>
+<span class="cstat-no" title="statement not covered" >					return p + (q - p) * (2 / 3 - t) * 6;</span>
+<span class="cstat-no" title="statement not covered" >				return p;</span>
+			}
+&nbsp;
+<span class="cstat-no" title="statement not covered" >			var q = l &lt; 0.5 ? l * (1 + s) : l + s - l * s;</span>
+<span class="cstat-no" title="statement not covered" >			var p = 2 * l - q;</span>
+<span class="cstat-no" title="statement not covered" >			r = hue2rgb(p, q, h + 1 / 3);</span>
+<span class="cstat-no" title="statement not covered" >			g = hue2rgb(p, q, h);</span>
+<span class="cstat-no" title="statement not covered" >			b = hue2rgb(p, q, h - 1 / 3);</span>
+		}
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		return { r:r * 255, g:g * 255, b:b * 255, toString: <span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >			return $_.A.map([r,g,b], <span class="fstat-no" title="function not covered" >function (value) {<span class="cstat-no" title="statement not covered" ></span>return $_.S.lpad((value*255|0).toString(16),"0",2);}</span>).join("");</span>
+		} };
+	}
+<span class="fstat-no" title="function not covered" >	function rgbToHsv(r, g, b) {</span>
+<span class="cstat-no" title="statement not covered" >		r = r / 255, g = g / 255, b = b / 255;</span>
+<span class="cstat-no" title="statement not covered" >		var max = Math.max(r, g, b), min = Math.min(r, g, b);</span>
+<span class="cstat-no" title="statement not covered" >		var h, s, v = max;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		var d = max - min;</span>
+<span class="cstat-no" title="statement not covered" >		s = max == 0 ? 0 : d / max;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		if (max == min) {</span>
+<span class="cstat-no" title="statement not covered" >			h = 0; </span>// achromatic
+		} else {
+<span class="cstat-no" title="statement not covered" >			switch (max) {</span>
+			case r:
+<span class="cstat-no" title="statement not covered" >				h = (g - b) / d + (g &lt; b ? 6 : 0);</span>
+<span class="cstat-no" title="statement not covered" >				break;</span>
+			case g:
+<span class="cstat-no" title="statement not covered" >				h = (b - r) / d + 2;</span>
+<span class="cstat-no" title="statement not covered" >				break;</span>
+			case b:
+<span class="cstat-no" title="statement not covered" >				h = (r - g) / d + 4;</span>
+<span class="cstat-no" title="statement not covered" >				break;</span>
+			}
+<span class="cstat-no" title="statement not covered" >			h /= 6;</span>
+		}
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		return { h:h, s:s, v:v };</span>
+	}
+<span class="fstat-no" title="function not covered" >	function hsvToRgb(h, s, v) {</span>
+<span class="cstat-no" title="statement not covered" >		var r, g, b;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		var i = Math.floor(h * 6);</span>
+<span class="cstat-no" title="statement not covered" >		var f = h * 6 - i;</span>
+<span class="cstat-no" title="statement not covered" >		var p = v * (1 - s);</span>
+<span class="cstat-no" title="statement not covered" >		var q = v * (1 - f * s);</span>
+<span class="cstat-no" title="statement not covered" >		var t = v * (1 - (1 - f) * s);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		switch (i % 6) {</span>
+		case 0:
+<span class="cstat-no" title="statement not covered" >			r = v, g = t, b = p;</span>
+<span class="cstat-no" title="statement not covered" >			break;</span>
+		case 1:
+<span class="cstat-no" title="statement not covered" >			r = q, g = v, b = p;</span>
+<span class="cstat-no" title="statement not covered" >			break;</span>
+		case 2:
+<span class="cstat-no" title="statement not covered" >			r = p, g = v, b = t;</span>
+<span class="cstat-no" title="statement not covered" >			break;</span>
+		case 3:
+<span class="cstat-no" title="statement not covered" >			r = p, g = q, b = v;</span>
+<span class="cstat-no" title="statement not covered" >			break;</span>
+		case 4:
+<span class="cstat-no" title="statement not covered" >			r = t, g = p, b = v;</span>
+<span class="cstat-no" title="statement not covered" >			break;</span>
+		case 5:
+<span class="cstat-no" title="statement not covered" >			r = v, g = p, b = q;</span>
+<span class="cstat-no" title="statement not covered" >			break;</span>
+		}
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		return { r: r * 255, g: g * 255, b: b * 255, toString: <span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >			return $_.A.map([r,g,b], <span class="fstat-no" title="function not covered" >function (value) {<span class="cstat-no" title="statement not covered" ></span>return $_.S.lpad((value*255|0).toString(16),"0",2);}</span>).join("");</span>
+		} };
+	}
+&nbsp;
+	$_.O.extend($_.Utils, {
+		makeuid : makeuid,
+		ready : ready,
+		parseJson : parseJson,
+		namespace : namespace,
+		rgbToHsl : rgbToHsl,
+		hslToRgb : hslToRgb,
+		rgbToHsv : rgbToHsv,
+		hsvToRgb : hsvToRgb
+	});
+})(Asdf);</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Feb 10 2014 21:13:58 GMT+0900 (대한민국 표준시)</div>
+</div>
+
+<script src="../prettify.js"></script>
+
+<script src="http://yui.yahooapis.com/3.6.0/build/yui/yui-min.js"></script>
+<script>
+
+    YUI().use('datatable', function (Y) {
+
+        var formatters = {
+          pct: function (o) {
+              o.className += o.record.get('classes')[o.column.key];
+              try {
+                  return o.value.toFixed(2) + '%';
+              } catch (ex) { return o.value + '%'; }
+          },
+          html: function (o) {
+              o.className += o.record.get('classes')[o.column.key];
+              return o.record.get(o.column.key + '_html');
+          }
+        },
+          defaultFormatter = function (o) {
+              o.className += o.record.get('classes')[o.column.key];
+              return o.value;
+          };
+
+        function getColumns(theadNode) {
+            var colNodes = theadNode.all('tr th'),
+                cols = [],
+                col;
+            colNodes.each(function (colNode) {
+                col = {
+                    key: colNode.getAttribute('data-col'),
+                    label: colNode.get('innerHTML') || ' ',
+                    sortable: !colNode.getAttribute('data-nosort'),
+                    className: colNode.getAttribute('class'),
+                    type: colNode.getAttribute('data-type'),
+                    allowHTML: colNode.getAttribute('data-html') === 'true' || colNode.getAttribute('data-fmt') === 'html'
+                };
+                col.formatter = formatters[colNode.getAttribute('data-fmt')] || defaultFormatter;
+                cols.push(col);
+            });
+            return cols;
+        }
+
+        function getRowData(trNode, cols) {
+            var tdNodes = trNode.all('td'),
+                    i,
+                    row = { classes: {} },
+                    node,
+                    name;
+            for (i = 0; i < cols.length; i += 1) {
+                name = cols[i].key;
+                node = tdNodes.item(i);
+                row[name] = node.getAttribute('data-value') || node.get('innerHTML');
+                row[name + '_html'] = node.get('innerHTML');
+                row.classes[name] = node.getAttribute('class');
+                //Y.log('Name: ' + name + '; Value: ' + row[name]);
+                if (cols[i].type === 'number') { row[name] = row[name] * 1; }
+            }
+            //Y.log(row);
+            return row;
+        }
+
+        function getData(tbodyNode, cols) {
+            var data = [];
+            tbodyNode.all('tr').each(function (trNode) {
+                data.push(getRowData(trNode, cols));
+            });
+            return data;
+        }
+
+        function replaceTable(node) {
+            if (!node) { return; }
+            var cols = getColumns(node.one('thead')),
+                data = getData(node.one('tbody'), cols),
+                table,
+                parent = node.get('parentNode');
+
+            table = new Y.DataTable({
+                columns: cols,
+                data: data,
+                sortBy: 'file'
+            });
+            parent.set('innerHTML', '');
+            table.render(parent);
+        }
+
+        Y.on('domready', function () {
+            replaceTable(Y.one('div.coverage-summary table'));
+            if (typeof prettyPrint === 'function') {
+                prettyPrint();
+            }
+        });
+    });
+</script>
+</body>
+</html>

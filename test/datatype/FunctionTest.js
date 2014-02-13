@@ -98,3 +98,25 @@ test("Asdf.F.orElse", function(){
 	}
 	equal(Asdf.F.orElse(fn, elseFn)(1), 2, 'orElse ok');
 });
+test("Asdf.F.guarder", function(){
+    var fibo = Asdf.F.guarded([
+        {
+            test: function(n){return n==0},
+            fn: function(){return 1}
+        },
+        {
+            test: function(n){return n==1},
+            fn: function(){return 1}
+        }, {
+            test:function(n){return n>1},
+            fn: function(n){return fibo(n-2)+fibo(n-1)}
+        }
+    ]);
+    equal(fibo(1), 1, 'fibo 1 ok');
+    equal(fibo(2), 2, 'fibo 2 ok');
+    equal(fibo(10), 89, 'fibo 89 ok');
+});
+test("Asdf.F.sequence", function(){
+    var f = Asdf.F.sequence(function(){return 1;}, function(){return 2});
+    equal(f(), 2, 'sequence ok');
+});

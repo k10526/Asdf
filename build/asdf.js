@@ -900,14 +900,38 @@
         cases:cases
 	});
 })(Asdf);
+/**
+ * @project Asdf.js
+ * @author N3735
+ * @namespace F
+ */
 (function($_) {
 	$_.F = {};
 	var slice = Array.prototype.slice, fnProto = Function.prototype, nativeBind = fnProto.bind;
 	
+	/**
+	 * @memberof F
+	 * @param {*} value value
+	 * @returns {*} value를 리턴한다. 
+	 * @desc value를 리턴한다.
+	 */
 	function identity(value) {
 		return value;
 	}
 	
+	/**
+	 * @memberof F
+	 * @param {function} func 실행 함수
+	 * @param {object} context 실행 함수 context
+	 * @returns {function} context에서 실행할 함수를 반환한다.
+	 * @desc 함수의 context를 변경한다.
+	 * @example
+	 * var obj = {name: 'kim'};
+	 * window.name = 'lee';
+	 * function getName(){return this.name};
+	 * getName(); //return 'lee'
+	 * Asdf.F.bind(getName, obj)(); // return 'kim'
+	 */
 	function bind(func, context) {
 		if (func.bind === nativeBind && nativeBind) return nativeBind.apply(func, slice.call(arguments, 1));
 		if (!$_.O.isFunction(func)) throw new TypeError;
@@ -920,6 +944,19 @@
 			return __method.apply(context, a);
 		};
 	}
+		
+	/**
+	 * @memberof F
+	 * @param {function} func 실행 함수
+	 * @param {...*=} args 미리 넣을 인자들
+	 * @returns {function} func에 미리 인자를 넣은 함수를 반환한다.
+	 * @desc 앞부터 인자를 채워 넣는다.
+	 * @example
+	 * var inc1 = Asdf.F.curry(function(a,b){return a+b;}, 1);
+	 * var inc2 = Asdf.F.curry(function(a,b){return a+b;}, 2);
+	 * inc1(1); return 2;
+	 * inc2(1); return 3; 
+	 */
 	function curry(func) {
 		if (!$_.O.isFunction(func)) throw new TypeError;
 		if (arguments.length == 1)
@@ -933,6 +970,13 @@
 		};
 	}
 
+	/**
+	 * @memberof F
+	 * @param {function} func 실행 함수
+	 * @param {number} timeout 지연시간(초) 
+	 * @returns {*} setTimeoutId를 반환한다.
+	 * @desc 실행함수를 지연시간 후에 실행한다. 
+	 */
 	function delay(func, timeout) {
 		if (!$_.O.isFunction(func)) throw new TypeError;
 		var __method = func, args = slice.call(arguments, 2);
@@ -941,12 +985,31 @@
 			return __method.apply(__method, args);
 		}, timeout);
 	}
+	
+	/**
+	 * @memberof F
+	 * @param {function} func 실행 함수
+	 * @returns {*} setTimeoutId를 반환한다.
+	 * @desc 실행함수를 0.01초 후에 실행한다. 
+	 */
 	function defer(func) {
 		if (!$_.O.isFunction(func)) throw new TypeError;
 		var args = $_.A.merge([ func, 0.01 ], slice.call(arguments, 1));
 		return delay.apply(this, args);
 	}
 
+	/**
+	 * @memberof F
+	 * @param {function} func 실행 함수
+	 * @param {function} wrapper wrapper 함수 
+	 * @returns {function} 실행함수를 wrapper로 감싼 함수를 반환한다.
+	 * @desc 실행함수를 wrapper로 감싼 함수를 반환한다. wrapper의 첫번째 인자는 실행 함수 이다.
+	 * @example
+	 * function fn(a){
+	 * 	return -a;
+	 * }
+	 * Asdf.F.wrap(fn, function(fn, a){ return -fn(a);})(2); //return 2;
+	 */
 	function wrap(func, wrapper) {
 		if (!$_.O.isFunction(func)) throw new TypeError;
 		var __method = func;
@@ -956,6 +1019,22 @@
 		};
 	}
 	
+	/**
+	 * @memberof F
+	 * @param {function} func 실행 함수
+	 * @param {function} pre 이전 실행 함수
+	 * @param {boolean} stop 이전 실행 함수의 결과값여부에 따라 실행 함수를 실행여부를 결정 
+	 * @returns {function} 이전 실행 함수, 실행 함수를 실행하는 함수를 반환한다.
+	 * @desc 이전 실행 함수, 실행 함수를 실행하는 함수를 반환한다.
+	 * @example
+	 * function b(a){
+	 * 	return !a; 
+	 * }
+	 * function fn(a){
+	 * 	return a;
+	 * }
+	 * Asdf.F.before(fn, b)(true); //return true;
+	 */
 	function before(func, pre, stop){
 		if(!$_.O.isFunction(func)|| !$_.O.isFunction(pre)) throw new TypeError;
 		return function () {
@@ -965,6 +1044,22 @@
 		};
 	};
 	
+	/**
+	 * @memberof F
+	 * @param {function} func 실행 함수
+	 * @param {function} after 이후 실행 함수
+	 * @param {boolean} stop 실행 함수의 결과값여부에 따라 이후 실행 함수를 실행여부를 결정 
+	 * @returns {function} 실행 함수, 이후 실행함수를 실행하는 함수를 반환한다.
+	 * @desc 실행 함수, 이후 실행함수를 실행하는 함수를 반환한다.
+	 * @example
+	 * function a(res, a) {
+	 * 	return res * 2;
+	 * }
+	 * function fn(a){
+	 * 	return a * a;
+	 * }
+	 * Asdf.F.after(fn, a)(2); //return 8;
+	 */
 	function after(func, after, stop){
 		if(!$_.O.isFunction(func)||!$_.O.isFunction(after)) throw new TypeError;
 		return function() {
@@ -974,6 +1069,19 @@
 		};
 	};
 	
+	/**
+	 * @memberof F
+	 * @param {function} func 실행 함수
+	 * @returns {function} 실행 함수 첫번째 인자를 this로 넣은 함수를 반환한다.
+	 * @desc 순수 함수를 특정 객체의 매소드로 만들 경우 유용한 함수이다. 이 함수를 실행하면 첫번째 인자에 this를 넣은 함수를 반환한다.
+	 * @example
+	 * var obj = {name: 'lee'};
+	 * function getName(obj){
+	 * 	return obj.name;
+	 * }
+	 * obj.getName = Asdf.F.methodize(getName);
+	 * obj.getName(); //return 'lee'
+	 */
 	function methodize(func) {
 		if (func._methodized)
 			return func._methodized;
@@ -983,6 +1091,22 @@
 			return __method.apply(null, a);
 		};
 	}
+	
+	/**
+	 * @memberof F
+	 * @param {...function} fns 실행 함수들
+	 * @returns {function} 함수들 오른쪽에서 왼쪽으로 실행하는 함수를 반환한다.
+	 * @desc 함수들 오른쪽에서 왼쪽으로 실행하는 함수를 반환한다. composeRight(f, g) -> g(f(x))
+	 * @example
+	 * function fn(a){
+	 * 	return a*2;
+	 * }
+	 * function fn2(a){
+	 * 	return a+2;
+	 * }
+	 * 
+	 * Asdf.F.composeRight(fn, fn2)(2); // return 8;
+	 */
 	function composeRight() {
 		var fns = $_.A.filter(slice.call(arguments), $_.O.isFunction);
 		var fn = $_.A.reduce(fns, $_.Core.behavior.compose);
@@ -990,6 +1114,22 @@
 			return fn.apply(this, arguments);
 		};
 	}
+	
+	/**
+	 * @memberof F
+	 * @param {...function} fns 실행 함수들
+	 * @returns {function} 함수들 오른쪽에서 왼쪽으로 실행하는 함수를 반환한다.
+	 * @desc 함수들 오른쪽에서 왼쪽으로 실행하는 함수를 반환한다. compose(f, g) -> f(g(x))
+	 * @example
+	 * function fn(a){
+	 * 	return a*2;
+	 * }
+	 * function fn2(a){
+	 * 	return a+2;
+	 * }
+	 * 
+	 * Asdf.F.compose(fn, fn2)(2); // return 6;
+	 */
 	function compose() {
 		var fns = $_.A.filter(slice.call(arguments), $_.O.isFunction);
 		var fn = $_.A.reduceRight(fns, $_.Core.behavior.compose);
@@ -1003,10 +1143,45 @@
 		}
 		return true;
 	};
+	
+	/**
+	 * @memberof F
+	 * @function
+	 * @param {function} func 실행 함수
+	 * @param {number} number 제거할 인자 갯수.
+	 * @returns {function} 실행 함수에서 number 갯수 인자를 제거한 실행 함수를 반환한다.
+	 * @desc 실행 함수에서 number 갯수 인자를 제거한 실행 함수를 반환한다.
+	 * @example
+	 * function add(a,b){ return a+b; }
+	 * var add2 = Asdf.F.extract(fn, 2);
+	 * add2(1,2,3,4); // return 7;
+	 */
 	var extract = before($_.Core.combine.extract, exisFunction);
 	
+	/**
+	 * @memberof F
+	 * @function
+	 * @param {function} func 실행 함수
+	 * @param {...*=} args 미리 넣을 인자들
+	 * @returns {function} func에 미리 인자를 넣은 함수를 반환한다.
+	 * @desc 특정 위치 부터 미리 인자를 넣은 함수를 반환한다.
+	 * @example
+	 * var half = Asdf.F.partial(function(a,b){return a/b;}, undefined, 2);
+	 * var quater = Asdf.F.partial(function(a,b){return a/b;}, 4);
+	 * half(100); // return 50;
+	 * quater(100); // return 25;
+	 */ 
 	var partial = before($_.Core.combine.partial, exisFunction);
 	
+	/**
+	 * @memberof F
+	 * @function
+	 * @param {...function} fns 실행 함수들
+	 * @returns {function} 함수 실행 결과 값 중 하나만 참이면 결과는 참인 함수를 반환한다.
+	 * @desc 함수 실행 중에 하나만 참이면 이후 연산은 하지 않고 참인 함수를 반환한다.
+	 * @example
+	 * Asdf.F.or(Asdf.O.isString, Asdf.O.isFunction, Asdf.O.isArray)('string'); // return true;
+	 */
 	function or(){
 		var fns = $_.A.filter(slice.call(arguments), $_.O.isFunction);
 		return function(){
@@ -1019,6 +1194,24 @@
 		};
 	}
 	
+	/**
+	 * @memberof F
+	 * @function
+	 * @param {...function} fns 실행 함수들
+	 * @returns {function} 함수 실행 결과 값 중 하나만 거짓이면 결과는 거짓인 함수를 반환한다.
+	 * @desc 함수 실행 중에 하나만 거짓이면 이후 연산은 하지 않고 거짓인 함수를 반환한다.
+	 * @example
+	 * function fn(a){
+	 * 	return a < 10;
+	 * }
+	 * function fn1(a){
+	 * 	return a < 15;
+	 * }
+	 * function fn2(a){
+	 * 	return a < 20;
+	 * }
+	 * Asdf.F.and(fn, fn1, fn2)(9); // return true;
+	 */
 	function and(){
 		var fns = $_.A.filter(slice.call(arguments), $_.O.isFunction);
 		return function(){
@@ -1040,6 +1233,32 @@
 			return elseFn.apply(this, arguments);
 		};
 	}
+    function guarded(guards){
+        if(!Asdf.O.isArray(guards)) throw new TypeError();
+        var guardType = {
+            test: function(v){return Asdf.O.isFunction(v)},
+            fn: function(v){return Asdf.O.isFunction(v)}
+        }
+        if(!Asdf.A.any(guards, partial(Asdf.O.type, undefined, guardType)))
+            throw new TypeError();
+        return function(){
+            for(var i =0 ; i < guards.length; i++){
+                if(guards[i].test.apply(guards[i].context, arguments))
+                    return guards[i].fn.apply(guards[i].context, arguments);
+            }
+            throw new TypeError();
+        }
+    }
+    function sequence() {
+        var fns = $_.A.filter(slice.call(arguments), $_.O.isFunction);
+        return function(){
+            var res = undefined;
+            Asdf.A.each(fns, function(f){
+                res = f.apply(this, arguments);
+            });
+            return res;
+        }
+    }
 	$_.O.extend($_.F, {
 		identity: identity,
 		bind: bind,
@@ -1057,7 +1276,9 @@
 		or: or,
 		and: and,
 		then: then,
-		orElse: orElse
+		orElse: orElse,
+        guarded: guarded,
+        sequence: sequence
 	}, true);
 
 })(Asdf);/**
@@ -1984,29 +2205,89 @@
 			return hash;
 		}, {});
 	}
+	
+	/**
+	 * @memberof S
+	 * @param {string} str 대상 문자열
+	 * @returns {array} 대상 문자열을 array로 변환한다.
+	 * @desc 대상 문자열을 array로 변환한다.  
+	 * @example
+	 * Asdf.S.toArray('abc'); // return ['a','b','c'];
+	 * 
+	 */
 	function toArray(str) {
 		if(!$_.O.isString(str)) throw new TypeError();
 	    return str.split('');
 	}
+	/**
+	 * @memberof S
+	 * @param {string} str 대상 문자열
+	 * @returns {string} 다음 문자열을 반환한다.
+	 * @desc keycode가 다음인 문자열을 반환한다.
+	 * @example
+	 * Asdf.S.succ('a'); // return 'b';
+	 * 
+	 */
 	function succ(str) {
 		if(!$_.O.isString(str)) throw new TypeError();
 	    return str.slice(0, str.length - 1) +
 	      String.fromCharCode(str.charCodeAt(str.length - 1) + 1);
 	}
+	
+	/**
+	 * @memberof S
+	 * @param {string} str 대상 문자열
+	 * @param {number} count 대상 문자열 횟수
+	 * @returns {string} 대상 문자열을 count 횟수 만큼 반복하여 반환한다.
+	 * @desc 대상 문자열을 count 횟수 만큼 반복하여 반환한다.
+	 * @example
+	 * Asdf.S.times('abc',3); // return 'abcabcabc'
+	 * 
+	 */
 	function times(str, count) {
 		if(!$_.O.isString(str)) throw new TypeError();
 	    return count < 1 ? '' : new Array(count + 1).join(str);
 	}
+	
+	/**
+	 * @memberof S
+	 * @param {string} str 대상 문자열
+	 * @returns {string} background-color -> backgroundColor.
+	 * @desc -를 없애고 다음 문자를 대문자로 변경한다.
+	 * @example
+	 * Asdf.S.camelize('background-color'); // return 'backgroundColor'
+	 * 
+	 */
 	function camelize(str) {
 		if(!$_.O.isString(str)) throw new TypeError();
 	    return str.replace(/-+(.)?/g, function(match, chr) {
 	      return chr ? chr.toUpperCase() : '';
 	    });
 	}
+	
+	/**
+	 * @memberof S
+	 * @param {string} str 대상 문자열
+	 * @returns {string} background -> Background.
+	 * @desc 첫문자를 대문자로 이후 문자를 소문자로 바꾼다.
+	 * @example
+	 * Asdf.S.capitalize('background'); // return 'Background'
+	 * 
+	 */
 	function capitalize(str) {
 		if(!$_.O.isString(str)) throw new TypeError();
 	    return str.charAt(0).toUpperCase() + str.substring(1).toLowerCase();
 	}
+	
+	/**
+	 * @memberof S
+	 * @param {string} str 대상 문자열
+	 * @returns {string} backgroundColor -> background_color
+	 * @desc 대문자 앞에 _변경하고 대문자를 소문자로 바꾸어 반환한다.
+	 * @example
+	 * Asdf.S.underscore('backgroundColor'); // return 'background_color'
+	 * 
+	 */
 	function underscore(str) {
 		if(!$_.O.isString(str)) throw new TypeError();
 	    return str.replace(/::/g, '/')
@@ -2015,37 +2296,118 @@
 	               .replace(/-/g, '_')
 	               .toLowerCase();
 	}
+	
+	/**
+	 * @memberof S
+	 * @param {string} str 대상 문자열
+	 * @returns {string} background_color -> background-color
+	 * @desc _를 -로 변경한다.
+	 * @example
+	 * Asdf.S.dasherize('background_color'); // return 'background-color'
+	 * 
+	 */
 	function dasherize(str) {
 		if(!$_.O.isString(str)) throw new TypeError();
 	    return str.replace(/_/g, '-');
 	}
+	
+	/**
+	 * @memberof S
+	 * @param {string} str 대상 문자열
+	 * @param {string} pattern 찾는 문자열
+	 * @returns {boolean} 대상 문자열에 찾는 문자열이 있으면 true를 반환한다.
+	 * @desc 대상 문자열에 찾는 문자열이 있으면 true를 반환한다.
+	 * @example
+	 * Asdf.S.include('background_color', 'or'); // return true;
+	 * 
+	 */
 	function include(str, pattern) {
 		if(!$_.O.isString(str)||!$_.O.isString(pattern)) throw new TypeError();
 	    return str.indexOf(pattern) > -1;
 	}
+	
+	/**
+	 * @memberof S
+	 * @param {string} str 대상 문자열
+	 * @param {string} pattern 찾는 문자열
+	 * @returns {boolean} 대상 문자열 앞에 찾는 문자열이 있으면 true를 반환한다.
+	 * @desc 대상 문자열 앞에 찾는 문자열이 있으면 true를 반환한다.
+	 * @example
+	 * Asdf.S.startsWith('background_color', 'back'); // return true;
+	 * 
+	 */
 	function startsWith(str, pattern) {
 		if(!$_.O.isString(str)||!$_.O.isString(pattern)) throw new TypeError();
 	    return str.lastIndexOf(pattern, 0) === 0;
 	}
+	
+	/**
+	 * @memberof S
+	 * @param {string} str 대상 문자열
+	 * @param {string} pattern 찾는 문자열
+	 * @returns {boolean} 대상 문자열 마지막에 찾는 문자열이 있으면 true를 반환한다.
+	 * @desc 대상 문자열 마지막에 찾는 문자열이 있으면 true를 반환한다.
+	 * @example
+	 * Asdf.S.endsWith('background_color', 'color'); // return true;
+	 * 
+	 */
 	function endsWith(str, pattern) {
 		if(!$_.O.isString(str)||!$_.O.isString(pattern)) throw new TypeError();
 	    var d = str.length - pattern.length;
 	    return d >= 0 && str.indexOf(pattern, d) === d;
 	}
+	
+	/**
+	 * @memberof S
+	 * @param {string} str 대상 문자열
+	 * @returns {boolean} 대상 문자열이 빈값이면 true를 반환한다.
+	 * @desc 대상 문자열이 빈값이면 true를 반환한다.
+	 * @example
+	 * Asdf.S.isEmpty(''); // return true;
+	 * 
+	 */
 	function isEmpty(str) {
 		if(!$_.O.isString(str)) throw new TypeError();
 	    return str == '';
 	}
+	
+	/**
+	 * @memberof S
+	 * @param {string} str 대상 문자열
+	 * @returns {boolean} 대상 문자열이 빈 값 또는 공백 문자일 경우 true를 반환한다.
+	 * @desc 대상 문자열이 빈 값 또는 공백 문자일 경우 true를 반환한다.
+	 * @example
+	 * Asdf.S.isBlank(' '); // return true;
+	 * 
+	 */
 	function isBlank(str) {
 		if(!$_.O.isString(str)) throw new TypeError();
 	    return /^\s*$/.test(str);
 	}
+	
+	/**
+	 * @memberof S
+	 * @param {string} str 대상 문자열
+	 * @returns {node} 대상 문자열을 node로 변경한다.
+	 * @desc 대상 문자열을 node로 변경한다.
+	 * @example
+	 * Asdf.S.toElement('<div id='abc'>abc</div> '); // return <div id='abc'>abc</div>;
+	 * 
+	 */
 	function toElement(str){
 		if(!$_.O.isString(str)) throw new TypeError();
 		var el = document.createElement('div');
 		el.innerHTML = str;
 		return el.firstChild;
 	}
+	
+	/**
+	 * @memberof S
+	 * @param {string} str 대상 문자열
+	 * @returns {documentFragment} 대상 문자열을 element로 변경 한 후 그 element를 documentFragment에 넣어서 반환한다.
+	 * @desc 대상 문자열을 element로 변경 한 후 그 element를 documentFragment에 넣어서 반환한다.
+	 * 
+	 */
 	function toDocumentFragment(str) {
 		if(!$_.O.isString(str)) throw new TypeError();
 		var el = document.createElement('div'), frg = document.createDocumentFragment();
@@ -2053,14 +2415,68 @@
 		while(el.childNodes.length) frg.appendChild(el.childNodes[0]);
 		return frg;	
 	}
+	
+	/**
+	 * @memberof S
+	 * @param {string} str 대상 문자열
+	 * @param {string] padStr 추가할 문자열
+	 * @param {number} length 만들 문자열 길이
+	 * @returns {string} 대상 문자열에 왼쪽에 추가 문자열을 넣어 length만큼 길이를 만들어서 반환한다. 
+	 * @desc 대상 문자열에 왼쪽에 추가 문자열을 넣어 length만큼 길이를 만들어서 반환한다. 
+	 * @example
+	 * Asdf.S.lpad('1', '0', 4); // return '0001';
+	 * 
+	 */
 	function lpad(str, padStr, length){
 		if(!$_.O.isString(str) || !$_.O.isNumber(length)) throw new TypeError();
 		return (new Array(length+1).join(padStr)+str).slice(-length);
 	}
+	
+	/**
+	 * @memberof S
+	 * @param {string} str 대상 문자열
+	 * @param {string] padStr 추가할 문자열
+	 * @param {number} length 만들 문자열 길이
+	 * @returns {string} 대상 문자열에 오른쪽에 추가 문자열을 넣어 length만큼 길이를 만들어서 반환한다. 
+	 * @desc 대상 문자열에 오른쪽쪽에 추가 문자열을 넣어 length만큼 길이를 만들어서 반환한다. 
+	 * @example
+	 * Asdf.S.rpad('1', '0', 4); // return '1000';
+	 * 
+	 */
 	function rpad(str, padStr, length){
 		if(!$_.O.isString(str) || !$_.O.isNumber(length)) throw new TypeError();
 		return (str + new Array(length+1).join(padStr)).slice(0,length);
 	}
+	
+	/**
+	 * @memberof S
+	 * @param {string} str 대상 문자열
+	 * @param {regexp} reg 정규 표현식
+	 * @returns {template} template
+	 * @desc template 객체를 반환한다. template.set(1, 'abc');... template.toString(); 
+	 * @example
+	 * var t = Asdf.S.template('aa ? bb ? cc ?', /\?/g);
+	 * t.set(1, 'bbb');
+	 * t.set(2, 'ccc');
+	 * t.set(3, 'ddd');
+	 * t.toString(); // return 'aa bbb bb ccc cc ddd';
+	 * 
+	 * var t1 = Asdf.S.template('aa {{AA}} bb {{BB}} cc {{CC}}');
+	 * t1.set('AA', 'bbb');
+	 * t1.set('BB', 'ccc');
+	 * t1.set(3, 'ddd');
+	 * t1.toString(); // return 'aa bbb bb ccc cc ddd';
+	 * 
+	 * var t2 = Asdf.S.template('aa {{AA}} bb {{BB}} cc {{CC}}');
+	 * var obj = {AA: 'bbb', BB:'ccc', CC: 'ddd'};
+	 * t2.set(obj);
+	 * 
+	 * var t3 = Asdf.S.template('aa <?AA?> bb <?BB?> cc <?CC?>', /\<\?([\s\S]+?)\?\>/g);
+	 * t3.set(1, 'bbb');
+	 * t3.set(2, 'ccc');
+	 * t3.set(3, 'ddd');
+	 * t3.toString(); // return 'aa bbb bb ccc cc ddd'
+	 */
 	function template(str, reg){
 		if (!$_.O.isString(str))
 			throw new TypeError();
@@ -2469,7 +2885,12 @@
     	once: once,
     	emit: emit
     });
-})(Asdf);(function($_) {
+})(Asdf);/**
+ * @project Asdf.js
+ * @author N3735
+ * @namespace Element
+ */
+(function($_) {
 	var nativeSlice = Array.prototype.slice, extend = $_.O.extend,
 		isElement = $_.O.isElement, isString = $_.O.isString, trim = $_.S.trim;
 	var tempParent = document.createElement('div');
@@ -2490,6 +2911,18 @@
 		} while ( element && element.nodeType !== 1 );
 		return element;
 	}
+    /**
+     * @memberof Element
+     * @param {element} element 대상element
+     * @param {function} fun 실행 함수
+     * @param {object=} context 실행 함수 context
+     * @returns {element} 대상 element
+     * @desc 대상element를 포함하여 자식들을 돌면서 실행 함수를 실행한다. 실행함수의 첫 번째 인자로 element가 들어간다.
+     * @example
+     * //element = <div>aa<div>bb</div><div>cc</div></div>
+     * Asdf.Element.walk(e, Asdf.F.partial(Asdf.Element.addClass, undefined, '11'));
+     * //return <div class="11">aa<div class="11">bb</div><div class="11">cc</div></div>
+     */
 	function walk(element, fun, context) {
 		context = context || this;
 		var i, childNodes = $_.A.toArray(element.childNodes);
@@ -2499,29 +2932,79 @@
 		}
 		return element;
 	}
+    /**
+     * @memberof Element
+     * @param {element} element 대상element
+     * @returns {boolean} boolean
+     * @desc element가 display가 none 여부를 반환한다.
+     *
+     */
 	function visible(element){
 		if(!$_.O.isNode(element))
 			throw new TypeError();
 		return element.style.display !='none';
 	}
+    /**
+     * @memberof Element
+     * @param {element} element 대상element
+     * @returns {element} 대상 element
+     * @desc visible(element)가 true면 hide를 실행하고 false면 show를 실행한다.
+     * @example
+     * var div = document.createElement('div');
+     * Asdf.Element.toggle(div);
+     * Asdf.Element.visible(div); //return false;
+     */
 	function toggle(element) {
 		if(!$_.O.isNode(element))
 			throw new TypeError();
 	    visible(element) ? hide(element) : show(element);
 	    return element;
 	}
+    /**
+     * @memberof Element
+     * @param {element} element 대상element
+     * @returns {element} 대상 element
+     * @desc 대상 element를 style.display를 'none'으로 변경 한다.
+     * @example
+     * var div = document.createElement('div');
+     * Asdf.Element.hide(div);
+     * Asdf.Element.visible(div); //return false;
+     */
 	function hide(element) {
 		if(!$_.O.isNode(element))
 			throw new TypeError();
 		element.style.display = 'none';
 	    return element;
 	}
+    /**
+     * @memberof Element
+     * @param {element} element 대상element
+     * @returns {element} 대상 element
+     * @desc 대상 element를 style.display를 ''으로 변경 한다.
+     * @example
+     * var div = document.createElement('div');
+     * Asdf.Element.hide(div);
+     * Asdf.Element.visible(div); //return false;
+     * Asdf.Element.show(div);
+     * Asdf.Element.visible(div); //return true;
+     */
 	function show(element) {
 		if(!$_.O.isNode(element))
 			throw new TypeError();
 		 element.style.display = '';
 		 return element;
 	}
+    /**
+     * @memberof Element
+     * @param {element} element 대상element
+     * @param {string=} value element에 넣을 문자열
+     * @returns {element|string} value값이 존재하면 element를 반환하고 value값이 존재 하지 않으면 text값을 반환하다.
+     * @desc value가 존재 하면 element에 해당 value를 넣고 value가 존재하지 않으면 해당 element의 text값을 반환한다.
+     * @example
+     * var div = document.createElement('div');
+     * Asdf.Element.text(div, 'hi'); //return <div>hi</div>
+     * Asdf.Element.text(div); //return "hi";
+     */
 	function text(element, value) {
 		if(!$_.O.isNode(element))
 			throw new TypeError();
@@ -2541,62 +3024,219 @@
 			}
 		}else {
 			append(empty(element), (element.ownerDocument || document ).createTextNode( value ) );
+            return element;
 		}
 	}
+    /**
+     * @memberof Element
+     * @param {element} element 대상element
+     * @param {string=} value value값
+     * @returns {element|string} value값이 존재하면 element를 반환하고 value값이 존재 하지 않으면 value값을 반환하다.
+     * @desc value가 존재 하면 element.value에 해당 value를 넣고 value가 존재하지 않으면 element.valvue 값을 반환한다.
+     * @example
+     * var input = document.createElement('input');
+     * Asdf.Element.value(input, 'hi');
+     * Asdf.Element.value(input); //return "hi";
+     */
 	function value(element, value) {
 		if(!$_.O.isNode(element))
 			throw new TypeError();
-		return (value==null)? element.value : element.value = value;
+		return (value==null)? element.value : (element.value = value, element);
 	}
+    /**
+     * @memberof Element
+     * @param {element} element 대상element
+     * @param {string=} html html값
+     * @returns {element|string} html값이 존재하면 element를 반환하고 html값이 존재 하지 않으면 innerHTML값을 반환하다.
+     * @desc html가 존재 하면 element.innerHTML에 해당 html를 넣고 html가 존재하지 않으면 element.innerHTML 값을 반환한다.
+     * @example
+     * var div = document.createElement('div');
+     * Asdf.Element.html(div, 'hi'); //return <div>hi</div>
+     * Asdf.Element.html(div); //return "hi";
+     */
 	function html(element, html) {
 		if(!$_.O.isNode(element))
 			throw new TypeError();
-		return (!html)? element.innerHTML: element.innerHTML = html;
+		return (html==null)? element.innerHTML: (element.innerHTML = html, element);
 	}
+    /**
+     * @memberof Element
+     * @param {element} element 대상element
+     * @returns {element} 대상element parentNode를 반환한다.
+     * @desc 대상element parentNode를 반환한다.
+     * @example
+     * var p = document.createElement('div');
+     * var c = document.createElement('div');
+     * p.appendChild(c);
+     * Asdf.Element.parent(c); //return p;
+     */
 	function parent(element){
 		if(!$_.O.isNode(element))
 			throw new TypeError();
 		return recursively(element, 'parentNode');
 	}
+    /**
+     * @memberof Element
+     * @param {element} element 대상element
+     * @param {element=} until 최종element
+     * @returns {array} 대상element에서 최종element까지 모든 조상을 array로 반환한다.
+     * @desc 대상element에서 최종element까지 모든 조상을 array로 반환한다.
+     * @example
+     * var pp = document.createElement('div');
+     * var p = document.createElement('div');
+     * var c = document.createElement('div');
+     * pp.appendChild(p);
+     * p.appendChild(c);
+     * Asdf.Element.parents(c); //return [p, pp];
+     * Asdf.Element.parents(c, p); //return [p];
+     */
 	function parents(element, until) {
 		if(!$_.O.isNode(element))
 			throw new TypeError();
 		 return recursivelyCollect(element, 'parentNode', until);
 	}
+    /**
+     * @memberof Element
+     * @param {element} element 대상element
+     * @returns {element} 대상element nextSibling 반환한다.
+     * @desc 대상element nextSibling 반환한다.
+     * @example
+     * var p = document.createElement('div');
+     * var c = document.createElement('div');
+     * var nc = document.createElement('div');
+     * p.appendChild(c);
+     * p.appendChild(nc);
+     * Asdf.Element.next(c); //return nc;
+     */
 	function next(element){
 		if(!$_.O.isNode(element))
 			throw new TypeError();
 		return recursively(element, 'nextSibling');
 	}
+    /**
+     * @memberof Element
+     * @param {element} element 대상element
+     * @returns {element} 대상element previousSibling 반환한다.
+     * @desc 대상element previousSibling 반환한다.
+     * @example
+     * var p = document.createElement('div');
+     * var pc = document.createElement('div');
+     * var c = document.createElement('div');
+     * p.appendChild(pc);
+     * p.appendChild(c);
+     * Asdf.Element.prev(c); //return nc;
+     */
 	function prev(element){
 		if(!$_.O.isNode(element))
 			throw new TypeError();
 		return recursively(element, 'previousSibling');
 	}
+    /**
+     * @memberof Element
+     * @param {element} element 대상element
+     * @param {element=} until 최종element
+     * @returns {array} 대상element에서 최종element까지 nextSibling들을 반환한다.
+     * @desc 대상element에서 최종element까지 nextSibling들을 반환한다.
+     * @example
+     * var p = document.createElement('div');
+     * var c = document.createElement('div');
+     * var nc1 = document.createElement('div');
+     * var nc2 = document.createElement('div');
+     * p.appendChild(c);
+     * p.appendChild(nc1);
+     * p.appendChild(nc2);
+     * Asdf.Element.nexts(c); //return [nc1, nc2];
+     */
 	function nexts(element, until) {
 		if(!$_.O.isNode(element))
 			throw new TypeError();
 		return recursivelyCollect(element, 'nextSibling', until);
 	}
+    /**
+     * @memberof Element
+     * @param {element} element 대상element
+     * @param {element=} until 최종element
+     * @returns {array} 대상element에서 최종element까지 previousSibling 반환한다.
+     * @desc 대상element에서 최종element까지 previousSibling 반환한다.
+     * @example
+     * var p = document.createElement('div');
+     * var c = document.createElement('div');
+     * var pc1 = document.createElement('div');
+     * var pc2 = document.createElement('div');
+     * p.appendChild(pc1);
+     * p.appendChild(pc2);
+     * p.appendChild(c);
+     * Asdf.Element.prevs(c); //return [pc2,pc1];
+     */
 	function prevs(element, until) {
 		if(!$_.O.isNode(element))
 			throw new TypeError();
 		return recursivelyCollect(element, 'previousSibling', until);
 	}
+    /**
+     * @memberof Element
+     * @param {element} element 대상element
+     * @returns {array} 본인을 제외한 형제 노드들을 반환한다.
+     * @desc 본인을 제외한 형제 노드들을 반환한다.
+     * @example
+     * var p = document.createElement('div');
+     * var c = document.createElement('div');
+     * var nc = document.createElement('div');
+     * var pc = document.createElement('div');
+     * p.appendChild(pc);
+     * p.appendChild(c);
+     * p.appendChild(nc);
+     * Asdf.Element.siblings(c); //return [pc,nc];
+     */
 	function siblings(element) {
 		if(!$_.O.isNode(element))
 			throw new TypeError();
 		return $_.A.without($_.A.toArray(element.parentNode.childNodes), element);
 	}
+    /**
+     * @memberof Element
+     * @param {element} element 대상element
+     * @returns {array} 자식 노드를 반환한다.
+     * @desc 자식 노드들을 반환한다.
+     * @example
+     * var p = document.createElement('div');
+     * var c = document.createElement('div');
+     * var nc = document.createElement('div');
+     * var pc = document.createElement('div');
+     * var text = document.createTextNode('aa');
+     * p.appendChild(text);
+     * p.appendChild(pc);
+     * p.appendChild(c);
+     * p.appendChild(nc);
+     * Asdf.Element.children(p); //return [text, pc,c,nc];
+     */
 	function children(element) {
 		if(!$_.O.isNode(element))
 			throw new TypeError();
-		return nexts(element.firstChild, 'nextSibling');
+		return Asdf.A.merge([element.firstChild],nexts(element.firstChild, 'nextSibling'));
 	}
+    /**
+     * @memberof Element
+     * @param {element} element 대상element
+     * @returns {element|elements} contents를 반환한다.
+     * @desc contents를 반환한다.
+     * @example
+     * var p = document.createElement('div');
+     * var c = document.createElement('div');
+     * var nc = document.createElement('div');
+     * var pc = document.createElement('div');
+     * p.appendChild(text);
+     * p.appendChild(pc);
+     * p.appendChild(c);
+     * p.appendChild(nc);
+     * Asdf.Element.contents(p); //return [text, pc,c,nc];
+     * var iframe = document.createElement('iframe');
+     * var doc = Asdf.Element.contents(iframe);
+     */
 	function contents(element) {
 		if(!$_.O.isNode(element))
 			throw new TypeError();
-		return (element.nodeName === 'IFRAM')?element.contentDocument||element.contentWindow.document : element.childNodes ;
+		return (element.nodeName === 'IFRAME')? (element.contentDocument||(element.contentWindow&&element.contentWindow.document)) : element.childNodes ;
 	}
 	function wrap(element, newContent) {
 		if(!$_.O.isNode(element)||!$_.O.isNode(newContent))
@@ -2743,7 +3383,7 @@
 			right : right,
 			left : left
 		};
-	};
+	}
 	function addClass(element, name){
 		if(!$_.O.isNode(element)||!$_.O.isString(name))
 			throw new TypeError();
@@ -2753,7 +3393,7 @@
 				element.className += (element.className? ' ':'') + name;
 		});
 		return element;
-	};
+	}
 	function removeClass(element, name) {
 		if(!$_.O.isNode(element))
 			throw new TypeError();

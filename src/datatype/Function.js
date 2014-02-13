@@ -331,6 +331,32 @@
 			return elseFn.apply(this, arguments);
 		};
 	}
+    function guarded(guards){
+        if(!Asdf.O.isArray(guards)) throw new TypeError();
+        var guardType = {
+            test: function(v){return Asdf.O.isFunction(v)},
+            fn: function(v){return Asdf.O.isFunction(v)}
+        }
+        if(!Asdf.A.any(guards, partial(Asdf.O.type, undefined, guardType)))
+            throw new TypeError();
+        return function(){
+            for(var i =0 ; i < guards.length; i++){
+                if(guards[i].test.apply(guards[i].context, arguments))
+                    return guards[i].fn.apply(guards[i].context, arguments);
+            }
+            throw new TypeError();
+        }
+    }
+    function sequence() {
+        var fns = $_.A.filter(slice.call(arguments), $_.O.isFunction);
+        return function(){
+            var res = undefined;
+            Asdf.A.each(fns, function(f){
+                res = f.apply(this, arguments);
+            });
+            return res;
+        }
+    }
 	$_.O.extend($_.F, {
 		identity: identity,
 		bind: bind,
@@ -348,7 +374,9 @@
 		or: or,
 		and: and,
 		then: then,
-		orElse: orElse
+		orElse: orElse,
+        guarded: guarded,
+        sequence: sequence
 	}, true);
 
 })(Asdf);

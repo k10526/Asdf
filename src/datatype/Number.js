@@ -47,7 +47,7 @@
 			res.push(i);
 		}
 		return res;
-	};
+	}
 	$_.O.extend($_.N, {
 		sum: sum,
 		isNotNaN: isNotNaN,

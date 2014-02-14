@@ -751,6 +751,43 @@
 		if($_.O.isNotArray(array)||$_.O.isNotFunction(fn)) throw new TypeError();
 		return fn.apply(context, array);
 	}
+
+    function contains(array, item){
+        return indexOf(array, item) >= 0;
+    }
+
+    function concat(array){
+        return arrayProto.concat.apply(arrayProto, arguments);
+    }
+
+    function count(array, fn, context){
+        var res = 0;
+        each(array, function(v, i, l){
+           if(fn.call(context, v, i, l))
+            ++res;
+        });
+        return res;
+    }
+
+    function repeat(value, n, args){
+        var arr = [];
+        for(var i = 0 ;  i < n ; i++){
+            arr[i] = Asdf.O.isFunction(value)? value.apply(this,slice.call(arguments, 2)):value;
+        }
+        return arr;
+    }
+
+    function rotate(array, n){
+        if(Asdf.O.isNotArray(array)||Asdf.O.isNotNumber(n)) throw new TypeError();
+        n %= array.length;
+        if(n>0){
+            arrayProto.unshift.apply(array, array.splice(-n, n));
+        }else if(n<0){
+            arrayProto.push.apply(array, array.splice(0, -n));
+        }
+        return array;
+    }
+
 	$_.O.extend($_.A, {
 		each: each,
 		map: map,
@@ -789,6 +826,11 @@
 		indexOf: indexOf,
 		lastIndexOf: lastIndexOf,
 		batch:batch,
-		toArguments:toArguments
+		toArguments:toArguments,
+        contains: contains,
+        concat: concat,
+        count: count,
+        repeat:repeat,
+        rotate: rotate
 	}, true);
 })(Asdf);

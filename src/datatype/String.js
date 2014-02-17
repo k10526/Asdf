@@ -466,6 +466,42 @@
 			toString : toString
 		};
 	}
+
+    function compareVersion(version1, version2, compareFn){
+        compareFn = compareFn||compare;
+        var order = 0;
+        var v1Subs = trim(String(version1)).split('.');
+        var v2Subs = trim(String(version2)).split('.');
+        var subCount = Math.max(v1Subs.length, v2Subs.length);
+        for (var subIdx = 0; order == 0 && subIdx < subCount; subIdx++) {
+            var v1Sub = v1Subs[subIdx] || '';
+            var v2Sub = v2Subs[subIdx] || '';
+            var v1CompParser = new RegExp('(\\d*)(\\D*)', 'g');
+            var v2CompParser = new RegExp('(\\d*)(\\D*)', 'g');
+            do {
+                var v1Comp = v1CompParser.exec(v1Sub) || ['', '', ''];
+                var v2Comp = v2CompParser.exec(v2Sub) || ['', '', ''];
+                if (v1Comp[0].length == 0 && v2Comp[0].length == 0) {
+                    break;
+                }
+                var v1CompNum = v1Comp[1].length == 0 ? 0 : parseInt(v1Comp[1], 10);
+                var v2CompNum = v2Comp[1].length == 0 ? 0 : parseInt(v2Comp[1], 10);
+                order = compareFn(v1CompNum, v2CompNum) ||
+                    compareFn(v1Comp[2].length == 0, v2Comp[2].length == 0) ||
+                    compareFn(v1Comp[2], v2Comp[2]);
+            } while (order == 0);
+        }
+
+        return order;
+    }
+
+    function compare(a,b){
+        if(a<b)
+            return -1;
+        else if(a>b)
+            return 1;
+        return 0;
+    }
 	$_.O.extend($_.S, {
 		truncate: truncate,
 		trim: trim,
@@ -490,6 +526,7 @@
 		toElement: toElement,
 		lpad: lpad,
 		rpad: rpad,
-		template:template
+		template:template,
+        compareVersion: compareVersion
 	});
 })(Asdf);

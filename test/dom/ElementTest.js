@@ -30,7 +30,9 @@ test("Asdf.Element.toggleClass", function() {
 });
 test("Asdf.Element.walk", function(){
     div.innerHTML = 'aa<div>bb</div><div>cc</div>'
-    equal(Asdf.Element.walk(div, Asdf.F.partial(Asdf.Element.addClass, undefined, '11')).innerHTML, 'aa<div class=\"11\">bb</div><div class=\"11\">cc</div>', 'walk ok')
+    var el = document.createElement('div');
+    el.innerHTML = 'aa<div class=\"11\">bb</div><div class=\"11\">cc</div>';
+    equal(Asdf.Element.walk(div, Asdf.F.then(function(element){return Asdf.O.isElement(element)}, Asdf.F.extract(Asdf.F.partial(Asdf.Element.addClass, undefined, '11')))).innerHTML, el.innerHTML, 'walk ok')
 });
 test("Asdf.Element.visible", function(){
     ok(Asdf.Element.visible(div), 'show visible true');
@@ -172,7 +174,9 @@ test("Asdf.Element.wrap", function(){
     var el = Asdf.Element.wrap(c, wrap);
     throws(function(){Asdf.Element.wrap('1')}, 'not Element throw Exceptions');
     equal(el, wrap, 'wrap ok');
-    equal(el.innerHTML, '<div></div>', 'wrap innerHTML ok');
+    var resdom = document.createElement('div');
+    resdom.innerHTML = '<div></div>';
+    equal(el.innerHTML, resdom.innerHTML, 'wrap innerHTML ok');
 });
 test("Asdf.Element.unwrap", function(){
     var c = document.createElement('div');
@@ -184,5 +188,17 @@ test("Asdf.Element.unwrap", function(){
     var el = Asdf.Element.unwrap(wrap);
     throws(function(){Asdf.Element.unwrap('1')}, 'not Element throw Exceptions');
     equal(el, wrap, 'unwrap ok');
-    equal(div.innerHTML, '<div></div><div></div>', 'unwrap innerHTML ok');
+    var resdom = document.createElement('div');
+    resdom.innerHTML = '<div></div><div></div>';
+    equal(div.innerHTML, resdom.innerHTML, 'unwrap innerHTML ok');
+});
+test("Asdf.Element.createDom", function(){
+    var el = Asdf.Element.createDom(document, 'div', {name: 'aa', className: 'bb', width:'100px'}, Asdf.Element.createDom(document, 'div'), Asdf.Element.createText(document, 'hahah'));
+    var input  = Asdf.Element.createDom(document, 'div', {type:'button'});
+    equal(Asdf.Element.attr(el, 'name'), 'aa', 'name ok');
+    equal(el.tagName, 'DIV', 'tagName ok');
+    equal(el.className, 'bb', 'className ok');
+    equal(Asdf.Element.attr(el, 'width'), '100px', 'width ok');
+    equal(Asdf.Element.attr(input, 'type'), 'button', 'type ok');
+    equal(el.childNodes.length, 2, 'children ok');
 });

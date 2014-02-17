@@ -183,16 +183,16 @@
     <h1>Code coverage report for <span class="entity">./src/bom/bom.js</span></h1>
     <h2>
         
-        Statements: <span class="metric">72.22% <small>(13 / 18)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">67.86% <small>(19 / 28)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Branches: <span class="metric">31.82% <small>(7 / 22)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">32.56% <small>(14 / 43)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Functions: <span class="metric">100% <small>(4 / 4)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">66.67% <small>(4 / 6)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class="metric">72.22% <small>(13 / 18)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">70.37% <small>(19 / 27)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
     </h2>
     <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">./src/bom\</a> &#187; bom.js</div>
@@ -246,7 +246,33 @@
 45
 46
 47
-48</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
@@ -257,8 +283,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -288,7 +318,29 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -304,12 +356,16 @@
 				|| <span class="branch-3 cbranch-no" title="branch not covered" >/(msie) ([\w.]+)/.exec(ua) </span>
 				|| <span class="branch-4 cbranch-no" title="branch not covered" >/(msie)(?:.*?Trident.*? rv:([\w.]+))/.exec('msie'+ua)</span>
 				|| <span class="branch-5 cbranch-no" title="branch not covered" >ua.indexOf("compatible") &lt; 0 </span>&amp;&amp; <span class="branch-6 cbranch-no" title="branch not covered" >/(mozilla)(?:.*? rv:([\w.]+)|)/.exec(ua) </span>|| <span class="branch-7 cbranch-no" title="branch not covered" >[];</span>
-&nbsp;
+        var browser = match[1] || <span class="branch-1 cbranch-no" title="branch not covered" >"";</span>
+        var version = match[2] || <span class="branch-1 cbranch-no" title="branch not covered" >"0";</span>
+        var documentMode =  browser != 'msie'? undefined : <span class="branch-1 cbranch-no" title="branch not covered" >document.documentMode || (document.compatMode == 'CSS1Compat'? parseInt(this.version,10) : 5);</span>
 		return {
-			browser : match[1] || <span class="branch-1 cbranch-no" title="branch not covered" >"",</span>
-			version : match[2] || <span class="branch-1 cbranch-no" title="branch not covered" >"0"</span>
-		};
+			browser : browser,
+			version : version,
+            documentMode:documentMode
+        };
 	})();
+&nbsp;
 	var features = {
 		XPath : !!document.evaluate,
 &nbsp;
@@ -333,11 +389,33 @@
 <span class="cstat-no" title="statement not covered" >			div = form = null;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >			return isSupported;</span>
-		})()
+		})(),
+&nbsp;
+        CanAddNameOrTypeAttributes : Browser.browser != 'msie' || <span class="branch-1 cbranch-no" title="branch not covered" >documentMode &gt;= 9,</span>
+&nbsp;
+        CanUseChildrenAttribute : Browser.browser != 'msie' &amp;&amp; Browser.browser != 'mozilla' ||
+<span class="branch-2 cbranch-no" title="branch not covered" >            Browser.browser == 'msie' </span>&amp;&amp; <span class="branch-3 cbranch-no" title="branch not covered" >documentMode &gt;= 9 </span>||
+<span class="branch-4 cbranch-no" title="branch not covered" >            Browser.browser == 'mozilla' </span>&amp;&amp; <span class="branch-5 cbranch-no" title="branch not covered" >Asdf.S.compareVersion(Browser.version, '1.9.1') &gt;=0,</span>
+        CanUseParentElementProperty : Browser.browser == 'msie' || Browser.browser == 'opera' || Browser.browser == 'webkit'
 	};
+    var browserMap = {
+        'firefox' : 'mozilla',
+        'ff': 'mozilla',
+        'ie': 'msie'
+    }
+<span class="fstat-no" title="function not covered" >    function isBrowser(browser){</span>
+<span class="cstat-no" title="statement not covered" >        if(!Asdf.O.isString(browser)) <span class="cstat-no" title="statement not covered" >throw new TypeError()</span></span>
+<span class="cstat-no" title="statement not covered" >        return (browserMap[browser.toLowerCase()]||browser.toLowerCase()) == Browser.browser</span>
+    }
+<span class="fstat-no" title="function not covered" >    function compareVersion(version){</span>
+<span class="cstat-no" title="statement not covered" >        return Asdf.S.compareVersion(Browser.version, version);</span>
+    }
 	$_.O.extend($_.Bom, {
+        isBrowser: isBrowser,
+        compareVersion: compareVersion,
 		browser : Browser.browser,
-		version: Browser.version, 
+		version: Browser.version,
+        documentMode: Browser.documentMode,
 		features:features
 	});
 })(Asdf);</pre></td></tr>
@@ -345,7 +423,7 @@
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Feb 16 2014 23:39:46 GMT+0900 (대한민국 표준시)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Feb 18 2014 00:48:30 GMT+0900 (대한민국 표준시)</div>
 </div>
 
 <script src="../prettify.js"></script>

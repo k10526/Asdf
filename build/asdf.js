@@ -324,7 +324,10 @@
 	 * @desc 해당 메소드를 사용하면 객체가 Element아닌지 판단한다.
 	 */
 	var isNotElement = not(isElement);
-	
+    function isDocument(object) {
+        return !!(object && object.nodeType === 9);
+    }
+    var isNotDocument = not(isDocument);
 	/**
 	 * @memberof O
 	 * @param {Object} object 판단 객체
@@ -845,6 +848,8 @@
 		functions : functions,
 		isElement : isElement,
 		isNotElement : isNotElement,
+        isDocument:isDocument,
+        isNotDocument: isNotDocument,
 		isNode: isNode,
 		isNotNode: isNotNode,
 		isWindow: isWindow,
@@ -2585,6 +2590,42 @@
 			toString : toString
 		};
 	}
+
+    function compareVersion(version1, version2, compareFn){
+        compareFn = compareFn||compare;
+        var order = 0;
+        var v1Subs = trim(String(version1)).split('.');
+        var v2Subs = trim(String(version2)).split('.');
+        var subCount = Math.max(v1Subs.length, v2Subs.length);
+        for (var subIdx = 0; order == 0 && subIdx < subCount; subIdx++) {
+            var v1Sub = v1Subs[subIdx] || '';
+            var v2Sub = v2Subs[subIdx] || '';
+            var v1CompParser = new RegExp('(\\d*)(\\D*)', 'g');
+            var v2CompParser = new RegExp('(\\d*)(\\D*)', 'g');
+            do {
+                var v1Comp = v1CompParser.exec(v1Sub) || ['', '', ''];
+                var v2Comp = v2CompParser.exec(v2Sub) || ['', '', ''];
+                if (v1Comp[0].length == 0 && v2Comp[0].length == 0) {
+                    break;
+                }
+                var v1CompNum = v1Comp[1].length == 0 ? 0 : parseInt(v1Comp[1], 10);
+                var v2CompNum = v2Comp[1].length == 0 ? 0 : parseInt(v2Comp[1], 10);
+                order = compareFn(v1CompNum, v2CompNum) ||
+                    compareFn(v1Comp[2].length == 0, v2Comp[2].length == 0) ||
+                    compareFn(v1Comp[2], v2Comp[2]);
+            } while (order == 0);
+        }
+
+        return order;
+    }
+
+    function compare(a,b){
+        if(a<b)
+            return -1;
+        else if(a>b)
+            return 1;
+        return 0;
+    }
 	$_.O.extend($_.S, {
 		truncate: truncate,
 		trim: trim,
@@ -2609,7 +2650,8 @@
 		toElement: toElement,
 		lpad: lpad,
 		rpad: rpad,
-		template:template
+		template:template,
+        compareVersion: compareVersion
 	});
 })(Asdf);
 (function($_) {
@@ -2704,12 +2746,16 @@
 				|| /(msie) ([\w.]+)/.exec(ua) 
 				|| /(msie)(?:.*?Trident.*? rv:([\w.]+))/.exec('msie'+ua)
 				|| ua.indexOf("compatible") < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(ua) || [];
-
+        var browser = match[1] || "";
+        var version = match[2] || "0";
+        var documentMode =  browser != 'msie'? undefined : document.documentMode || (document.compatMode == 'CSS1Compat'? parseInt(this.version,10) : 5);
 		return {
-			browser : match[1] || "",
-			version : match[2] || "0"
-		};
+			browser : browser,
+			version : version,
+            documentMode:documentMode
+        };
 	})();
+
 	var features = {
 		XPath : !!document.evaluate,
 
@@ -2733,11 +2779,33 @@
 			div = form = null;
 
 			return isSupported;
-		})()
+		})(),
+
+        CanAddNameOrTypeAttributes : Browser.browser != 'msie' || Browser.documentMode >= 9,
+
+        CanUseChildrenAttribute : Browser.browser != 'msie' && Browser.browser != 'mozilla' ||
+            Browser.browser == 'msie' && Browser.documentMode >= 9 ||
+            Browser.browser == 'mozilla' && Asdf.S.compareVersion(Browser.version, '1.9.1') >=0,
+        CanUseParentElementProperty : Browser.browser == 'msie' || Browser.browser == 'opera' || Browser.browser == 'webkit'
 	};
+    var browserMap = {
+        'firefox' : 'mozilla',
+        'ff': 'mozilla',
+        'ie': 'msie'
+    }
+    function isBrowser(browser){
+        if(!Asdf.O.isString(browser)) throw new TypeError()
+        return (browserMap[browser.toLowerCase()]||browser.toLowerCase()) == Browser.browser
+    }
+    function compareVersion(version){
+        return Asdf.S.compareVersion(Browser.version, version);
+    }
 	$_.O.extend($_.Bom, {
+        isBrowser: isBrowser,
+        compareVersion: compareVersion,
 		browser : Browser.browser,
-		version: Browser.version, 
+		version: Browser.version,
+        documentMode: Browser.documentMode,
 		features:features
 	});
 })(Asdf);(function($_) {
@@ -2971,7 +3039,7 @@
 		var i, childNodes = $_.A.toArray(element.childNodes);
 		fun.call(context, element);
 		for (i = 0; i < childNodes.length ; i++) {
-			walk(childNodes[i], fun);
+			walk(childNodes[i], fun, context);
 		}
 		return element;
 	}
@@ -3281,6 +3349,20 @@
 			throw new TypeError();
 		return (element.nodeName === 'IFRAME')? (element.contentDocument||(element.contentWindow&&element.contentWindow.document)) : element.childNodes ;
 	}
+    /**
+     * @memberof Element
+     * @param {element} element 대상element
+     * @param {element} element wrapElement
+     * @returns {element} wrapElement를 반환한다.
+     * @desc 대상element를 wrapElement로 감싼 후 wrapElement를 반환한다.
+     * @example
+     * var p = document.createElement('div');
+     * var c = document.createElement('div');
+     * var wrap = document.createElement('div');
+     * p.appendChild(c);
+     * var el = Asdf.Element.wrap(c, wrap); //return wrap;
+     * el.innerHTML; //'<div></div>'
+     */
 	function wrap(element, newContent) {
 		if(!$_.O.isNode(element)||!$_.O.isNode(newContent))
 			throw new TypeError();
@@ -3288,15 +3370,76 @@
 		newContent.appendChild(element);
 		return newContent;
 	}
+    /**
+     * @memberof Element
+     * @param {element} element 대상element
+     * @returns {element} 대상 element를 반환한다.
+     * @desc 대상element를 제거하고 대상 하위 element를 대상 부모 element로 이동시킨 후 대상 element를 반환한다.
+     * @example
+     * var p = document.createElement('div');
+     * var c = document.createElement('div');
+     * var wrap = document.createElement('div');
+     * p.appendChild(wrap);
+     * wrap.appendChild(c);
+     * var el = Asdf.Element.unwrap(wrap); //return wrap;
+     * p.innerHTML; //'<div></div>'
+     */
 	function unwrap(element) {
 		if(!$_.O.isNode(element))
 			throw new TypeError();
 		var bin = document.createDocumentFragment();
 		var parentNode = element.parentNode;
-		bin.appendChild(element);
-		parentNode.parentNode.replaceChild(element, parentNode);
+		Asdf.A.each(children(element), function(el){
+            bin.appendChild(el);
+        });
+		parentNode.replaceChild(bin, element);
 		return element;
 	}
+
+    function createDom(doc, name, attributes, children){
+        if(Asdf.O.isNotDocument(doc)||Asdf.O.isNotString(name)) throw new TypeError();
+        if(!Asdf.Bom.features.CanAddNameOrTypeAttributes && attributes &&(attributes.name||attributes.type)) {
+            var htmlArr = ['<', name];
+            attributes = Asdf.O.clone(attributes);
+            if(attributes.name){
+                htmlArr.push(' name="', Asdf.S.escapeHTML(attributes.name), '"');
+                delete attributes['name']
+            }
+            if(attributes.type){
+                htmlArr.push(' type="', Asdf.S.escapeHTML(attributes.type), '"');
+                delete attributes['type']
+            }
+            htmlArr.push('>');
+            name = htmlArr.join('');
+        }
+        var el = doc.createElement(name);
+        if(attributes){
+            Asdf.O.each(attributes, function(v, k){
+                if(k === 'className' &&Asdf.O.isString(v)){
+                    addClass(el, v);
+                    return;
+                }
+                else if(k === 'style' && Asdf.O.isPlainObject(v)){
+                    Asdf.O.each(v, function(key, value){
+                        css(el, key, value);
+                    });
+                    return;
+                }
+                else{
+                    attr(el, k, v);
+                }
+            });
+        }
+        children = nativeSlice.call(arguments, 3);
+        Asdf.A.each(children, function(c){
+            append(el, c);
+        });
+        return el;
+    }
+    function createText(doc, string){
+        if(Asdf.O.isNotString(string)) throw new TypeError();
+        return doc.createTextNode(string);
+    }
 	function append(element, newContent) {
 		if(!$_.O.isNode(element)||!$_.O.isNode(newContent))
 			throw new TypeError();
@@ -3606,7 +3749,9 @@
 		closest:closest,
 		css:css,
 		toHTML: toHTML,
-		isWhitespace: isWhitespace
+		isWhitespace: isWhitespace,
+        createDom: createDom,
+        createText: createText
 	});
 })(Asdf);(function ($_) {
 	$_.Template = {};

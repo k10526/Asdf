@@ -183,16 +183,16 @@
     <h1>Code coverage report for <span class="entity">./src/datatype/String.js</span></h1>
     <h2>
         
-        Statements: <span class="metric">69.41% <small>(118 / 170)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">61.22% <small>(120 / 196)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Branches: <span class="metric">54.63% <small>(59 / 108)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">43.7% <small>(59 / 135)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Functions: <span class="metric">80.56% <small>(29 / 36)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">76.32% <small>(29 / 38)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class="metric">81.25% <small>(117 / 144)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">70% <small>(119 / 170)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
     </h2>
     <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">./src/datatype\</a> &#187; String.js</div>
@@ -694,7 +694,44 @@
 493
 494
 495
-496</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1162,7 +1199,44 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1657,6 +1731,42 @@
 			toString : toString
 		};
 	}
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function compareVersion(version1, version2, compareFn){</span>
+<span class="cstat-no" title="statement not covered" >        compareFn = compareFn||compare;</span>
+<span class="cstat-no" title="statement not covered" >        var order = 0;</span>
+<span class="cstat-no" title="statement not covered" >        var v1Subs = trim(String(version1)).split('.');</span>
+<span class="cstat-no" title="statement not covered" >        var v2Subs = trim(String(version2)).split('.');</span>
+<span class="cstat-no" title="statement not covered" >        var subCount = Math.max(v1Subs.length, v2Subs.length);</span>
+<span class="cstat-no" title="statement not covered" >        for (var subIdx = 0; order == 0 &amp;&amp; subIdx &lt; subCount; subIdx++) {</span>
+<span class="cstat-no" title="statement not covered" >            var v1Sub = v1Subs[subIdx] || '';</span>
+<span class="cstat-no" title="statement not covered" >            var v2Sub = v2Subs[subIdx] || '';</span>
+<span class="cstat-no" title="statement not covered" >            var v1CompParser = new RegExp('(\\d*)(\\D*)', 'g');</span>
+<span class="cstat-no" title="statement not covered" >            var v2CompParser = new RegExp('(\\d*)(\\D*)', 'g');</span>
+<span class="cstat-no" title="statement not covered" >            do {</span>
+<span class="cstat-no" title="statement not covered" >                var v1Comp = v1CompParser.exec(v1Sub) || ['', '', ''];</span>
+<span class="cstat-no" title="statement not covered" >                var v2Comp = v2CompParser.exec(v2Sub) || ['', '', ''];</span>
+<span class="cstat-no" title="statement not covered" >                if (v1Comp[0].length == 0 &amp;&amp; v2Comp[0].length == 0) {</span>
+<span class="cstat-no" title="statement not covered" >                    break;</span>
+                }
+<span class="cstat-no" title="statement not covered" >                var v1CompNum = v1Comp[1].length == 0 ? 0 : parseInt(v1Comp[1], 10);</span>
+<span class="cstat-no" title="statement not covered" >                var v2CompNum = v2Comp[1].length == 0 ? 0 : parseInt(v2Comp[1], 10);</span>
+<span class="cstat-no" title="statement not covered" >                order = compareFn(v1CompNum, v2CompNum) ||</span>
+                    compareFn(v1Comp[2].length == 0, v2Comp[2].length == 0) ||
+                    compareFn(v1Comp[2], v2Comp[2]);
+            } while (order == 0);
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        return order;</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function compare(a,b){</span>
+<span class="cstat-no" title="statement not covered" >        if(a&lt;b)</span>
+<span class="cstat-no" title="statement not covered" >            return -1;</span>
+        else <span class="cstat-no" title="statement not covered" >if(a&gt;b)</span>
+<span class="cstat-no" title="statement not covered" >            return 1;</span>
+<span class="cstat-no" title="statement not covered" >        return 0;</span>
+    }
 	$_.O.extend($_.S, {
 		truncate: truncate,
 		trim: trim,
@@ -1681,7 +1791,8 @@
 		toElement: toElement,
 		lpad: lpad,
 		rpad: rpad,
-		template:template
+		template:template,
+        compareVersion: compareVersion
 	});
 })(Asdf);
 &nbsp;</pre></td></tr>
@@ -1689,7 +1800,7 @@
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Feb 16 2014 23:39:46 GMT+0900 (대한민국 표준시)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Feb 18 2014 00:48:30 GMT+0900 (대한민국 표준시)</div>
 </div>
 
 <script src="../prettify.js"></script>

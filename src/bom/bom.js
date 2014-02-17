@@ -44,10 +44,10 @@
 			return isSupported;
 		})(),
 
-        CanAddNameOrTypeAttributes : Browser.browser != 'msie' || documentMode >= 9,
+        CanAddNameOrTypeAttributes : Browser.browser != 'msie' || Browser.documentMode >= 9,
 
         CanUseChildrenAttribute : Browser.browser != 'msie' && Browser.browser != 'mozilla' ||
-            Browser.browser == 'msie' && documentMode >= 9 ||
+            Browser.browser == 'msie' && Browser.documentMode >= 9 ||
             Browser.browser == 'mozilla' && Asdf.S.compareVersion(Browser.version, '1.9.1') >=0,
         CanUseParentElementProperty : Browser.browser == 'msie' || Browser.browser == 'opera' || Browser.browser == 'webkit'
 	};

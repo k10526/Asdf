@@ -41,7 +41,7 @@
 		var i, childNodes = $_.A.toArray(element.childNodes);
 		fun.call(context, element);
 		for (i = 0; i < childNodes.length ; i++) {
-			walk(childNodes[i], fun);
+			walk(childNodes[i], fun, context);
 		}
 		return element;
 	}
@@ -398,6 +398,50 @@
 		return element;
 	}
 
+    function createDom(doc, name, attributes, children){
+        if(Asdf.O.isNotDocument(doc)||Asdf.O.isNotString(name)) throw new TypeError();
+        if(!Asdf.Bom.features.CanAddNameOrTypeAttributes && attributes &&(attributes.name||attributes.type)) {
+            var htmlArr = ['<', name];
+            attributes = Asdf.O.clone(attributes);
+            if(attributes.name){
+                htmlArr.push(' name="', Asdf.S.escapeHTML(attributes.name), '"');
+                delete attributes['name']
+            }
+            if(attributes.type){
+                htmlArr.push(' type="', Asdf.S.escapeHTML(attributes.type), '"');
+                delete attributes['type']
+            }
+            htmlArr.push('>');
+            name = htmlArr.join('');
+        }
+        var el = doc.createElement(name);
+        if(attributes){
+            Asdf.O.each(attributes, function(v, k){
+                if(k === 'className' &&Asdf.O.isString(v)){
+                    addClass(el, v);
+                    return;
+                }
+                else if(k === 'style' && Asdf.O.isPlainObject(v)){
+                    Asdf.O.each(v, function(key, value){
+                        css(el, key, value);
+                    });
+                    return;
+                }
+                else{
+                    attr(el, k, v);
+                }
+            });
+        }
+        children = nativeSlice.call(arguments, 3);
+        Asdf.A.each(children, function(c){
+            append(el, c);
+        });
+        return el;
+    }
+    function createText(doc, string){
+        if(Asdf.O.isNotString(string)) throw new TypeError();
+        return doc.createTextNode(string);
+    }
 	function append(element, newContent) {
 		if(!$_.O.isNode(element)||!$_.O.isNode(newContent))
 			throw new TypeError();
@@ -707,6 +751,8 @@
 		closest:closest,
 		css:css,
 		toHTML: toHTML,
-		isWhitespace: isWhitespace
+		isWhitespace: isWhitespace,
+        createDom: createDom,
+        createText: createText
 	});
 })(Asdf);

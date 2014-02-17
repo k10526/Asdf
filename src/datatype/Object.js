@@ -140,7 +140,10 @@
 	 * @desc 해당 메소드를 사용하면 객체가 Element아닌지 판단한다.
 	 */
 	var isNotElement = not(isElement);
-	
+    function isDocument(object) {
+        return !!(object && object.nodeType === 9);
+    }
+    var isNotDocument = not(isDocument);
 	/**
 	 * @memberof O
 	 * @param {Object} object 판단 객체
@@ -661,6 +664,8 @@
 		functions : functions,
 		isElement : isElement,
 		isNotElement : isNotElement,
+        isDocument:isDocument,
+        isNotDocument: isNotDocument,
 		isNode: isNode,
 		isNotNode: isNotNode,
 		isWindow: isWindow,

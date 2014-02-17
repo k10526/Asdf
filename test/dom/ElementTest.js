@@ -164,5 +164,25 @@ test("Asdf.Element.contents", function(){
     var doc = Asdf.Element.contents(iframe);
     ok(doc.nodeType===9&&(document!=doc), 'iframe ok');
     Asdf.Element.remove(iframe);
-
+});
+test("Asdf.Element.wrap", function(){
+    var c = document.createElement('div');
+    var wrap = document.createElement('div');
+    div.appendChild(c);
+    var el = Asdf.Element.wrap(c, wrap);
+    throws(function(){Asdf.Element.wrap('1')}, 'not Element throw Exceptions');
+    equal(el, wrap, 'wrap ok');
+    equal(el.innerHTML, '<div></div>', 'wrap innerHTML ok');
+});
+test("Asdf.Element.unwrap", function(){
+    var c = document.createElement('div');
+    var nc = document.createElement('div');
+    var wrap = document.createElement('div');
+    div.appendChild(wrap);
+    wrap.appendChild(c);
+    wrap.appendChild(nc);
+    var el = Asdf.Element.unwrap(wrap);
+    throws(function(){Asdf.Element.unwrap('1')}, 'not Element throw Exceptions');
+    equal(el, wrap, 'unwrap ok');
+    equal(div.innerHTML, '<div></div><div></div>', 'unwrap innerHTML ok');
 });

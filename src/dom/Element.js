@@ -351,6 +351,20 @@
 			throw new TypeError();
 		return (element.nodeName === 'IFRAME')? (element.contentDocument||(element.contentWindow&&element.contentWindow.document)) : element.childNodes ;
 	}
+    /**
+     * @memberof Element
+     * @param {element} element 대상element
+     * @param {element} element wrapElement
+     * @returns {element} wrapElement를 반환한다.
+     * @desc 대상element를 wrapElement로 감싼 후 wrapElement를 반환한다.
+     * @example
+     * var p = document.createElement('div');
+     * var c = document.createElement('div');
+     * var wrap = document.createElement('div');
+     * p.appendChild(c);
+     * var el = Asdf.Element.wrap(c, wrap); //return wrap;
+     * el.innerHTML; //'<div></div>'
+     */
 	function wrap(element, newContent) {
 		if(!$_.O.isNode(element)||!$_.O.isNode(newContent))
 			throw new TypeError();
@@ -358,15 +372,32 @@
 		newContent.appendChild(element);
 		return newContent;
 	}
+    /**
+     * @memberof Element
+     * @param {element} element 대상element
+     * @returns {element} 대상 element를 반환한다.
+     * @desc 대상element를 제거하고 대상 하위 element를 대상 부모 element로 이동시킨 후 대상 element를 반환한다.
+     * @example
+     * var p = document.createElement('div');
+     * var c = document.createElement('div');
+     * var wrap = document.createElement('div');
+     * p.appendChild(wrap);
+     * wrap.appendChild(c);
+     * var el = Asdf.Element.unwrap(wrap); //return wrap;
+     * p.innerHTML; //'<div></div>'
+     */
 	function unwrap(element) {
 		if(!$_.O.isNode(element))
 			throw new TypeError();
 		var bin = document.createDocumentFragment();
 		var parentNode = element.parentNode;
-		bin.appendChild(element);
-		parentNode.parentNode.replaceChild(element, parentNode);
+		Asdf.A.each(children(element), function(el){
+            bin.appendChild(el);
+        });
+		parentNode.replaceChild(bin, element);
 		return element;
 	}
+
 	function append(element, newContent) {
 		if(!$_.O.isNode(element)||!$_.O.isNode(newContent))
 			throw new TypeError();

@@ -3886,11 +3886,30 @@
 		}
 		return parent;
 	}
+    function getTimer(){
+        return Asdf.F.bind((performance.now||
+            performance.mozNow||
+            performance.msNow||
+            performance.oNow||
+            performance.webkitNow||
+            function() { return new Date().getTime(); }), performance||{});
+    }
+    function time(fn){
+        var timer = getTimer();
+        var startTime = timer();
+        var res = fn(Array.prototype.slice.call(arguments, 1));
+        var endTime = timer();
+        if(endTime == startTime)
+            endTime = timer();
+        console.log(endTime - startTime);
+        return res;
+    }
 	$_.O.extend($_.Utils, {
 		makeuid : makeuid,
 		ready : ready,
 		parseJson : parseJson,
-		namespace : namespace
+		namespace : namespace,
+        time:time
 	});
 })(Asdf);(function ($_) {
 	$_.Base = {};

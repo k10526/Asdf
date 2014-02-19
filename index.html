@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
 
@@ -9,63 +9,237 @@
     <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
 
     <title>Asdf by k10526</title>
-  </head>
+</head>
 
-  <body>
+<body>
 
-    <header>
-      <div class="container">
+<header>
+    <div class="container">
         <h1>Asdf</h1>
         <h2>javascript library</h2>
 
         <section id="downloads">
-          <a href="https://github.com/k10526/Asdf/zipball/master" class="btn">Download as .zip</a>
-          <a href="https://github.com/k10526/Asdf/tarball/master" class="btn">Download as .tar.gz</a>
-          <a href="https://github.com/k10526/Asdf" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+            <a href="javascripts/asdf.js" class="btn">Download js</a>
+            <a href="javascripts/asdf-min.js" class="btn">Download js-min</a>
+            <a href="https://github.com/k10526/Asdf" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
         </section>
-      </div>
-    </header>
-
-    <div class="container">
-      <section id="main_content">
-        <h1>
-<a name="asdf" class="anchor" href="#asdf"><span class="octicon octicon-link"></span></a>Asdf</h1>
-
-<h3>
-<a name="asdfjs-%EB%9E%80" class="anchor" href="#asdfjs-%EB%9E%80"><span class="octicon octicon-link"></span></a>Asdf.js 란?</h3>
-
-<ul>
-<li>javascript library 입니다.</li>
-<li>functional programming을 지향합니다.</li>
-<li>앱스 헝가리안 표기법을 지향합니다.</li>
-<li>라이브러리의 쉬운 확장과 분리가 가능 합니다.</li>
-</ul><h3>
-<a name="asdfjs-%EB%AA%A9%EC%A0%81" class="anchor" href="#asdfjs-%EB%AA%A9%EC%A0%81"><span class="octicon octicon-link"></span></a>Asdf.js 목적</h3>
-
-<ul>
-<li>개발자들간의 보편함수를 정리.</li>
-<li>함수간 종속을 최소화.</li>
-<li>표현 계층과 핵심 계층을 분리.</li>
-</ul><h3>
-<a name="asdfjs-%EA%B3%84%EC%B8%B5-%EA%B5%AC%EC%A1%B0" class="anchor" href="#asdfjs-%EA%B3%84%EC%B8%B5-%EA%B5%AC%EC%A1%B0"><span class="octicon octicon-link"></span></a>Asdf.js 계층 구조</h3>
-
-<ul>
-<li>핵심 계층 : 필수 함수 모음.</li>
-<li>표현 계층 : 사용자의 사용성을 향상.</li>
-</ul><p><code>
-Asdf.Selector : jQuery처럼 사용 가능.
-Asdf.Alias : prototype처럼 사용 가능.
-</code></p>
-
-<p>Asdf.js는 개발자들끼리 순수 함수를 만들어서 공유하는 장소 입니다. 이것들을 정제하여 필요한 라이브러리 제작이 할수 있습니다. 또한 표현 계층을 통해서 다양한 사용성을 제공할 수 있습니다.</p>
-
-<p>API 문서 : <a href="http://www.asdfjs.com/asdf/docs/">http://www.asdfjs.com/asdf/docs/</a></p>
-
-<h2>
-<a name="%EC%9D%B4%EA%B2%83%EC%9D%B4-%EB%B0%94%EB%A1%9C-asdfjs-%EC%9E%85%EB%8B%88%EB%8B%A4" class="anchor" href="#%EC%9D%B4%EA%B2%83%EC%9D%B4-%EB%B0%94%EB%A1%9C-asdfjs-%EC%9E%85%EB%8B%88%EB%8B%A4"><span class="octicon octicon-link"></span></a>이것이 바로 Asdf.js 입니다.</h2>
-      </section>
     </div>
+</header>
 
-    
-  </body>
+<div class="container">
+    <section id="main_content">
+        <h1>
+            <a name="asdf" class="anchor" href="#asdf"><span class="octicon octicon-link"></span></a>Asdf</h1>
+
+        <h2>
+            <a name="asdfjs-%EB%9E%80" class="anchor" href="#asdfjs-%EB%9E%80"><span class="octicon octicon-link"></span></a>Asdf.js 란?</h2>
+
+        <ul>
+            <li>javascript library 입니다.</li>
+            <li>functional programming을 지향합니다.</li>
+            <li>앱스 헝가리안 표기법을 지향합니다.</li>
+            <li>라이브러리의 쉬운 확장과 분리가 가능 합니다.</li>
+        </ul><h2>
+        <a name="asdfjs-%EB%AA%A9%EC%A0%81" class="anchor" href="#asdfjs-%EB%AA%A9%EC%A0%81"><span class="octicon octicon-link"></span></a>Asdf.js 목적</h2>
+
+        <ul>
+            <li>개발자들간의 보편함수를 정리.</li>
+            <li>함수간 종속을 최소화.</li>
+            <li>표현 계층과 핵심 계층을 분리.</li>
+        </ul><h2>
+        <a name="asdfjs-%EA%B3%84%EC%B8%B5-%EA%B5%AC%EC%A1%B0" class="anchor" href="#asdfjs-%EA%B3%84%EC%B8%B5-%EA%B5%AC%EC%A1%B0"><span class="octicon octicon-link"></span></a>Asdf.js 계층 구조</h2>
+
+        <ul>
+            <li>핵심 계층 : 필수 함수 모음.</li>
+            <li>표현 계층 : 사용자의 사용성을 향상.</li>
+        </ul>
+        <p>
+            <code>
+                Asdf.Selector : jQuery처럼 사용 가능.
+            </code><br>
+            <code>
+                Asdf.Alias : prototype처럼 사용 가능.
+            </code>
+        </p>
+
+        <p>Asdf.js는 개발자들끼리 순수 함수를 만들어서 <strong>공유하는 장소</strong> 입니다. <br>이것들을 정제하여 필요한 라이브러리 제작이 할수 있습니다. 또한 표현 계층을 통해서 다양한 사용성을 제공할 수 있습니다.</p>
+
+        <p>API 문서 : <a href="http://www.asdfjs.com/asdf/docs/">http://www.asdfjs.com/asdf/docs/</a></p>
+        <p>Test : <a href="http://www.asdfjs.com/test/test.html">http://www.asdfjs.com/asdf/test/test.html</a></p>
+
+        <h2><a name="%EC%9D%B4%EA%B2%83%EC%9D%B4-%EB%B0%94%EB%A1%9C-asdfjs-%EC%9E%85%EB%8B%88%EB%8B%A4" class="anchor" href="#%EC%9D%B4%EA%B2%83%EC%9D%B4-%EB%B0%94%EB%A1%9C-asdfjs-%EC%9E%85%EB%8B%88%EB%8B%A4"><span class="octicon octicon-link"></span></a><strong>이것이 바로 Asdf.js 입니다.</strong></h2>
+        <h3>
+            <a name="%EC%88%9C%EC%88%98-%ED%95%A8%EC%88%98%EB%9E%80" class="anchor" href="#%EC%88%9C%EC%88%98-%ED%95%A8%EC%88%98%EB%9E%80"><span class="octicon octicon-link"></span></a>순수 함수란</h3>
+
+        <ul>
+            <li>부작용이 없는 함수, 즉 함수의 실행이 외부에 영향을 끼치지 않는다.</li>
+            <li>예) sin(x), length(s) ...
+                <a href="http://en.wikipedia.org/wiki/Pure_function">http://en.wikipedia.org/wiki/Pure_function</a>
+            </li>
+        </ul><h3>
+        <a name="%EC%88%9C%EC%88%98-%ED%95%A8%EC%88%98" class="anchor" href="#%EC%88%9C%EC%88%98-%ED%95%A8%EC%88%98"><span class="octicon octicon-link"></span></a>순수 함수</h3>
+
+        <ol>
+            <li>undercore.js : var evens = _.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });</li>
+            <li>Asdf.js : var evens = Asdf.A.filter([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });</li>
+        </ol><h3>
+        <a name="%EB%B9%84-%EC%88%9C%EC%88%98-%ED%95%A8%EC%88%98" class="anchor" href="#%EB%B9%84-%EC%88%9C%EC%88%98-%ED%95%A8%EC%88%98"><span class="octicon octicon-link"></span></a>비 순수 함수</h3>
+
+        <ol>
+            <li>prototype.js : [1,2, 3, 4, 5].filter(function(num){ return num % 2 == 0; });</li>
+            <li>jQuery.js : $('div').filter('.aa');</li>
+        </ol><h3>
+        <a name="%EA%B3%A0%EC%B0%A8-%ED%95%A8%EC%88%98-%ED%95%A9%EC%84%B1" class="anchor" href="#%EA%B3%A0%EC%B0%A8-%ED%95%A8%EC%88%98-%ED%95%A9%EC%84%B1"><span class="octicon octicon-link"></span></a>고차 함수 합성</h3>
+
+        <ul>
+            <li>하나 이상의 함수를 인자로 받고, 새 함수를 반환한은 함수.
+                <a href="http://ko.wikipedia.org/wiki/%ED%95%A9%EC%84%B1%ED%95%A8%EC%88%98">http://ko.wikipedia.org/wiki/%ED%95%A9%EC%84%B1%ED%95%A8%EC%88%98</a>
+            </li>
+        </ul><h3>
+        <a name="%ED%95%A9%EC%84%B1-%EA%B8%B0%EB%B3%B8-%EC%98%88%EC%A0%9C" class="anchor" href="#%ED%95%A9%EC%84%B1-%EA%B8%B0%EB%B3%B8-%EC%98%88%EC%A0%9C"><span class="octicon octicon-link"></span></a>합성 기본 예제</h3>
+
+<pre><code>
+    var nativeSlice = Array.prototype.slice;
+
+    function curry (fn) {
+        var args = nativeSlice.call(arguments, 1);
+        return function () {
+            return fn.apply(this, args.concat(nativeSlice.call(arguments)));
+        };
+    }
+
+    inc = curry(function(a,b){return a+b}, 1);
+    inc(2); // return 3
+
+    function partial(fn) {
+        var args = nativeSlice.call(arguments, 1);
+        return function () {
+            var arg = 0;
+            var a = args.slice();
+            for ( var i = 0; i &lt; args.length &amp;&amp; arg &lt; arguments.length; i++ )
+                if(args[i] === undefined)
+                    a[i] = arguments[arg++];
+            return fn.apply(this, a);
+        };
+    }
+
+    half = partial(function(a,b){return a/b}, undefined, 2);
+    half(4); //return 2;
+    quater = partial(function(a,b){return a/b}, undefined, 4);
+    quater(4); //return 4;
+
+    function extract(fn, n) {
+        n==null &amp;&amp; (n=1);
+        return function () {
+            return fn.apply(this, nativeSlice.call(arguments, n));
+        }
+    }
+    f = extract(function(a,b){return a+b;}, 2);
+    f(1,2,3,4) // return 7
+
+</code></pre>
+        <h3>
+            <a name="%ED%95%A9%EC%84%B1-%EA%B3%A0%EA%B8%89-%EC%98%88%EC%A0%9C" class="anchor" href="#%ED%95%A9%EC%84%B1-%EA%B3%A0%EA%B8%89-%EC%98%88%EC%A0%9C"><span class="octicon octicon-link"></span></a>합성 고급 예제</h3>
+
+<pre><code>
+    function memoizer(fn, memo){
+        memo = memo||{};
+        return function (key, nouse) {
+            var res = memo[key];
+            if(res == null || nouse){
+                res = fn.call(this,key);
+                memo[key] = res;
+            }
+            return res;
+        };
+    }
+
+    function fibo(n){
+        if(n&lt;0)
+            throw new typeError();
+        else if(n&lt;=2)
+            return 1;
+        else if(n==3)
+            return 2;
+        else return fibo(n-1) + fibo(n-2);
+    }
+    mfibo = memoizer(fibo);
+    mfibo(43);
+</code></pre>
+
+        <p><strong>순수 함수</strong>일 경우, 성능을 위해서 처음 결과 값을 저장한 후 이후 함수를 부를 시에 연산 없이 저장 값을 반환하도록 하는 경우 (메모이제이션) 기존의 함수 변경 없이 합성을 통해서 문제를 해결 할 수 있다.
+            fibo(45)일 경우 (컴퓨터 사항에 따라 다름) 대략 10초 정도 걸리는데 두번째 세번째 함수를 부를 때도 같은 시간이 소요된다. 그러나 mfibo(45)로 memo라는 함수와 fibo를 합성하여 처음엔 10초 걸리지만 두번째 부터는 연산 없이 바로 값을 반환한다.</p>
+        <h3>
+            <a name="asdfjs-%ED%95%A8%EC%88%98-%ED%95%A9%EC%84%B1-%EC%98%88%EC%A0%9C" class="anchor" href="#asdfjs-%ED%95%A8%EC%88%98-%ED%95%A9%EC%84%B1-%EC%98%88%EC%A0%9C"><span class="octicon octicon-link"></span></a>Asdf.js 함수 합성 예제</h3>
+
+<pre><code>
+    function compose(f1, f2){
+    return function () {
+        return f1.call(this, (f2.apply(this, arguments)));
+        }
+    }
+    var not = curry(compose, function(a) {return !a;});
+    var isNumber = not(isNaN);
+    isNumber(1); //return true;
+    isNumber('aa'); // return false;
+    var sum = Asdf.F.compose(Asdf.Arg.toArray,
+        partial(Asdf.A.filter, undefined, isNotNaN),
+        partial(Asdf.A.reduce, undefined, function(a,b){return a+b}, 0));
+    var div = Asdf.F.compose(Asdf.Arg.toArray,
+        partial(Asdf.A.filter, undefined, isNotNaN),
+        partial(Asdf.A.reduce, undefined, function(a,b){return a/b}));
+    var mul= Asdf.F.compose(Asdf.Arg.toArray,
+        partial(Asdf.A.filter, undefined, isNotNaN),
+        partial(Asdf.A.reduce, undefined, function(a,b){return a*b}, 1));
+    var mod = Asdf.F.compose(Asdf.Arg.toArray,
+        partial(Asdf.A.filter, undefined, isNotNaN),
+        partial(Asdf.A.reduce, undefined, function(a,b){return a%b}, 100));
+    var sub = Asdf.F.compose(Asdf.Arg.toArray,
+        partial(Asdf.A.filter, undefined, isNotNaN),
+        partial(Asdf.A.reduce, undefined, function(a,b){return a-b}, 0));
+</code></pre>
+        <h3>
+            <a name="asdfjs-%EA%B0%9C%EB%B0%9C-%EC%98%88%EC%A0%9C" class="anchor" href="#asdfjs-%EA%B0%9C%EB%B0%9C-%EC%98%88%EC%A0%9C"><span class="octicon octicon-link"></span></a>Asdf.js 개발 예제</h3>
+
+<pre><code>
+    var uniqueAdd = Asdf.F.composeRight(Asdf.A.unique, add);
+    function add(array, item) {
+        array.push(item);
+        return array;
+    }
+    uniqueAdd([1,2,3,4],1); //return [1,2,3,4]
+    uniqueAdd([1,2,3,4],5); //return [1, 2, 3, 4, 5]
+</code></pre>
+
+        <p>Asdf.js 기존에 함수를 사용 또는 신규 메소드를 개발하여 위의 방법 처럼 함수 합성을 통해서 빠르고 간단하게 함수 생성이 가능하다.</p>
+
+        <h3>
+            <a name="asdfjs-%EC%8B%A4%EC%A0%9C-%EC%86%8C%EC%8A%A4" class="anchor" href="#asdfjs-%EC%8B%A4%EC%A0%9C-%EC%86%8C%EC%8A%A4"><span class="octicon octicon-link"></span></a>Asdf.js 실제 소스</h3>
+
+<pre><code>...
+    var is =  $_.Core.returnType.is, compose = $_.Core.behavior.compose, iterate = $_.Core.behavior.iterate;
+    var curry = $_.Core.combine.curry;
+    var partial = $_.Core.combine.partial;
+    var not = curry(compose, $_.Core.op["!"]);
+    var isNotNaN = not(isNaN);
+    ...
+    var sum = $_.F.compose($_.Arg.toArray, partial($_.A.filter, undefined, isNotNaN), partial($_.A.reduce, undefined, $_.Core.op["+"], 0));
+    var isRange = is(function (n,a,b) { return a&lt;=n &amp;&amp; n&lt;=b; });
+    var isNotRange = not(isRange);
+    var isZero = is(function (n) { return n === 0;});
+    var isNotZero = not(isZero);
+    var isSame = is(function (n, a) { return a === b;});
+    var isNotSame = not(isSame);
+    var isGreaterThan = is(function (n, a){ return n &gt; a;});
+    var isNotGreaterThan = not(isGreaterThan);
+    var isLessThan = is(function (n, a){ return n &lt; a;});
+    var isNotLessThan = not(isLessThan);
+    ...
+
+</code></pre>
+    </section>
+</div>
+
+
+</body>
 </html>

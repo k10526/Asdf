@@ -1,0 +1,19 @@
+{
+    "date": "20130214",
+    "dateType": "yyyymmdd",
+    "title": "news",
+    "data": [
+        {
+            "id": "11",
+            "content": " 안녕하세요"
+        },
+        {
+            "id": "12",
+            "content": "반갑습니다."
+        },
+        {
+            "id": "13",
+            "content": "처음뵙겠습니다."
+        }
+    ]
+}

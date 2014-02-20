@@ -931,7 +931,7 @@
 			$_.A.merge(a, args);
 			$_.A.merge(a, arguments);
 			return __method.apply(context, a);
-		};
+		}
 	}
 		
 	/**
@@ -1031,7 +1031,7 @@
 			if(!(pres = pre.apply(this,arguments))&&stop) return pres;
 			return func.apply(this,arguments);
 		};
-	};
+	}
 	
 	/**
 	 * @memberof F
@@ -1056,7 +1056,7 @@
 			if(!res && stop) return res;
 			return after.apply(this, $_.A.merge([res], arguments));
 		};
-	};
+	}
 	
 	/**
 	 * @memberof F
@@ -1078,7 +1078,7 @@
 		return func._methodized = function() {
 			var a = $_.A.merge([ this ], slice.call(arguments,0));
 			return __method.apply(null, a);
-		};
+		}
 	}
 	
 	/**
@@ -1252,13 +1252,13 @@
         }
     }
     function cases(obj, defaults){
-        if(!isPlainObject(obj) || !isFunction(defaults)) throw new TypeError();
+        if(!Asdf.O.isPlainObject(obj) || !Asdf.O.isFunction(defaults)) throw new TypeError();
         defaults = defaults || function(){};
         return function(key){
             var arg = slice.call(arguments, 1);
             var fn;
             if(fn = get(obj, key)){
-                if(isFunction(fn)){
+                if(Asdf.O.isFunction(fn)){
                     return fn.apply(this, arg);
                 }
                 return fn;

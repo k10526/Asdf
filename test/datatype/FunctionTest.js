@@ -120,3 +120,10 @@ test("Asdf.F.sequence", function(){
     var f = Asdf.F.sequence(function(){return 1;}, function(){return 2});
     equal(f(), 2, 'sequence ok');
 });
+test("Asdf.F.overload", function(){
+    var add = Asdf.F.overload(function(a,b){return a.length+b.length}, function(a,b){ return Asdf.O.isArray(a) && Asdf.O.isArray(b)});
+    add = Asdf.F.overload(function(a,b){return a+b}, function(a,b){ return Asdf.O.isNumber(a) && Asdf.O.isNumber(b)}, add);
+    equal(add(1,2), 3, 'ok');
+    equal(add([],[]), 0, 'ok');
+    throws(function(){add(1,[])}, 'throws');
+});

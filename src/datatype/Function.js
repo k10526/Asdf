@@ -323,12 +323,15 @@
 	}
 	var then = partial(after, undefined, undefined, true);
 	
-	function orElse(func, elseFn){
+	function orElse(func, elseFn, stop){
 		if(!$_.O.isFunction(func)||!$_.O.isFunction(elseFn)) throw new TypeError;
 		return function() {
 			var res = func.apply(this, arguments);
-			if(res) return res;
-			return elseFn.apply(this, arguments);
+            if(Asdf.O.isNotUndefined(stop)&&stop===res||Asdf.O.isUndefined(stop)&&!res)
+                return elseFn.apply(this, arguments);
+            return res;
+
+
 		};
 	}
     function guarded(guards){
@@ -373,6 +376,17 @@
             }
         }
     }
+    var stop = {};
+    function overload(fn, typeFn, overloadedFn){
+        overloadedFn = overloadedFn||function(){throw new TypeError;};
+        var f = function(){
+            if(!typeFn.apply(this, arguments)){
+                return stop;
+            }
+            return fn.apply(this, arguments);
+        }
+        return orElse(f, overloadedFn, stop)
+    }
 	$_.O.extend($_.F, {
 		identity: identity,
 		bind: bind,
@@ -393,7 +407,8 @@
 		orElse: orElse,
         guarded: guarded,
         sequence: sequence,
-        cases:cases
+        cases:cases,
+        overload:overload
 	}, true);
 
 })(Asdf);

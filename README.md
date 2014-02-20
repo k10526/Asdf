@@ -2,8 +2,8 @@ Asdf
 ====
 
 ### Asdf.js 란?
-* javascript library 입니다.
-* functional programming을 지향합니다.
+* JavaScript Library 입니다.
+* Functional Programming을 지향합니다.
 * 앱스 헝가리안 표기법을 지향합니다.
 * 라이브러리의 쉬운 확장과 분리가 가능 합니다.
 
@@ -42,7 +42,7 @@ Asdf.js는 개발자들끼리 순수 함수를 만들어서 공유하는 장소 
 
 
 ##### 고차 함수 합성
-* 하나 이상의 함수를 인자로 받고, 새 함수를 반환한은 함수.
+* 하나 이상의 함수를 인자로 받거나, 새 함수를 반환하는 함수.
 <http://ko.wikipedia.org/wiki/%ED%95%A9%EC%84%B1%ED%95%A8%EC%88%98>
 
 ##### 합성 기본 예제
@@ -146,7 +146,7 @@ function add(array, item) {
 uniqueAdd([1,2,3,4],1); //return [1,2,3,4]
 uniqueAdd([1,2,3,4],5); //return [1, 2, 3, 4, 5]
 ```
-> Asdf.js 기존에 함수를 사용 또는 신규 메소드를 개발하여 위의 방법 처럼 함수 합성을 통해서 빠로고 간단하게 함수 생성이 가능하다.
+> Asdf.js 기존에 함수를 사용 또는 신규 메소드를 개발하여 위의 방법 처럼 함수 합성을 통해서 빠르고 간단하게 함수 생성이 가능하다.
 
 ### Asdf.js 실제 소스
 ```
